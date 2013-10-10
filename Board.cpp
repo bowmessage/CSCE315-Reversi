@@ -3,7 +3,7 @@
 Board::Board(){
   for(int i = 0; i < 8; i++){
     for(int j = 0; j < 8; j++){
-      tiles[i][j] = Tile(BLANK);
+      tiles[i][j] = Tile(EMPTY);
     }
   }
   tiles[3][3] = Tile(WHITE);
@@ -28,7 +28,7 @@ ostream& operator<<(ostream& out, const Board b){
         case BLACK:
           out << "@";
           break;
-        case BLANK:
+        case EMPTY:
           out << " ";
           break;
       }

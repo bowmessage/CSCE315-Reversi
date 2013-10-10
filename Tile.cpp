@@ -7,25 +7,22 @@ Tile::Tile(State s){
 }
 
 
-Tile::turnWhite(){
-  state = Tile.WHITE;
+void Tile::turnWhite(){
+  state = WHITE;
 }
 
-Tile::turnBlack(){
-  state = Tile.BLACK;
+void Tile::turnBlack(){
+  state = BLACK;
 }
 
-Tile::isWhite(){
-  if(state == Tile.WHITE) return true;
-  else return false;
+bool Tile::isWhite(){
+  return state == WHITE;
 }
 
-Tile::isBlack(){
-  if(state == Tile.BLACK) return true;
-  else return false;
+bool Tile::isBlack(){
+  return state == BLACK;
 }
 
-Tile::isEmpty(){
-  if(state == Tile.BLANK) return true;
-  else return false;
+bool Tile::isEmpty(){
+  return state == EMPTY;
 }

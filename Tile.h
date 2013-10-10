@@ -2,7 +2,7 @@
 #define TILE_H
 
 enum State{
-  BLANK, WHITE, BLACK
+  EMPTY, WHITE, BLACK
 };
 
 class Tile{
@@ -15,7 +15,7 @@ class Tile{
     
     bool isBlack();
     bool isWhite();
-    bool isEmpty();   //Chose "isEmpty" because "isBlank" looks too much like "isBlack" and could likely cause debugging hardships.
+    bool isEmpty();
     void turnBlack();
     void turnWhite();
 };
