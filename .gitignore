@@ -11,3 +11,11 @@
 *.lai
 *.la
 *.a
+
+#vim stuff
+*~
+*.swp
+*.swo
+
+#compiled executable from makefile
+game

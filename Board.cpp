@@ -15,6 +15,26 @@ Board::Board(){
 Board::~Board(){
 }
 
+
+
+
+void Board::setState(State s, int x, int y){
+  tiles[y][x].setState(s);
+}
+
+State Board::getState(int x, int y){
+  return tiles[y][x].getState();
+}
+
+vector<Tile> Board::validMoves(State s){
+  vector<Tile> ret;
+  return ret;
+}
+
+
+
+
+
 ostream& operator<<(ostream& out, const Board b){
   out << "Current Board:\n";
   out << "_________________\n";

@@ -12,12 +12,10 @@ class Tile{
     Tile(State s);
 
     State state;
+
+    void setState(State s);
+    State getState();
     
-    bool isBlack();
-    bool isWhite();
-    bool isEmpty();
-    void turnBlack();
-    void turnWhite();
 };
 
 
