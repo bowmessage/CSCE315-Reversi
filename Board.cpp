@@ -36,25 +36,35 @@ vector<Tile> Board::validMoves(State s){
 
 
 ostream& operator<<(ostream& out, const Board b){
+  int numBlack = 0, numWhite = 0;
+
   out << "Current Board:\n";
-  out << "_________________\n";
+  out << "  _ _ _ _ _ _ _ _ \n";
   for(int i = 0; i < 8; i++){
+    out << (i+1);
+    //out << (char)(97+i);
     for(int j = 0; j < 8; j++){
       out << "|";
       switch(b.tiles[i][j].state){
         case WHITE:
+          numWhite++;
           out << "O";
           break;
         case BLACK:
+          numBlack++;
           out << "@";
           break;
         case EMPTY:
-          out << " ";
+          out << "_";
           break;
       }
     }
     out << "|\n";
   }
-  out << "_________________\n";
+  out << "  a b c d e f g h\n";
+  out << "\n";
+  out << "White: " << numWhite << "\n";
+  out << "Black: " << numBlack << "\n";
+  out << "\n\n";
   return out;
 }

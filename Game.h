@@ -10,6 +10,11 @@ class Game{
     Game();
 
 
+    void startGame();
+    int turnNum;
+    bool isP1Turn;
+
+    void doTurn();
 
 
     Board board;
