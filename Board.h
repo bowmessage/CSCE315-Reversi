@@ -4,6 +4,7 @@
 #include "Tile.h"
 #include <vector>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -22,6 +23,7 @@ class Board{
 
 
     friend ostream& operator<<(ostream& out, const Board b);
+    string toString() const;
 };
 
 

@@ -12,7 +12,16 @@ int main(){
     g.doTurn();
   }*/
 
+  Game g;
+  g.startGame();
+
   Server s;
   s.startServer();
-
+  cout << "Welcome to Reversi.\n";
+  cout << "The game server has started. Waiting for connections...\n";
+  s.acceptConnection();
+  cout << "Connection received! Game starting.\n";
+  s.sendString(g.board.toString());
+  s.readString();
+  s.endConnection();
 }

@@ -16,7 +16,17 @@ class Server{
 
     Server();
 
+    int socketID;
+    int connectID;
+    char readBuf[1024];
+
     void startServer();
+
+    void acceptConnection();
+    void endConnection();
+
+    void sendString(string s);
+    string readString();
 
 };
 
