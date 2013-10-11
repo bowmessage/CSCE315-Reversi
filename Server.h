@@ -27,8 +27,6 @@ class Server{
 
     void sendString(string s);
     string readString();
-
 };
-
 
 #endif

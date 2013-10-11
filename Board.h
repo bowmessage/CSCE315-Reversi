@@ -8,17 +8,25 @@
 
 using namespace std;
 
+struct Move{
+  int x;
+  int y;
+  State team;
+};
+
 class Board{
   public:
     Board();
     ~Board();
 
     Tile tiles[8][8];
+    vector<Move> moves;
 
     void setState(State s, int x, int y);
     State getState(int x, int y);
 
-    vector<Tile> validMoves (State s);
+    vector<Move> validMoves (State s);
+    bool hasValidMoves();
 
 
 

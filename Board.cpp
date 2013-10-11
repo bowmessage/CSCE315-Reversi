@@ -1,5 +1,6 @@
 #include "Board.h"
 
+
 Board::Board(){
   for(int i = 0; i < 8; i++){
     for(int j = 0; j < 8; j++){
@@ -26,9 +27,14 @@ State Board::getState(int x, int y){
   return tiles[y][x].getState();
 }
 
-vector<Tile> Board::validMoves(State s){
-  vector<Tile> ret;
+vector<Move> Board::validMoves(State s){
+  vector<Move> ret;
+  //TODO implememnt
   return ret;
+}
+bool Board::hasValidMoves(){
+  //TODO implement
+  return true;
 }
 
 
@@ -44,11 +50,10 @@ string Board::toString() const{
   stringstream ss;
   int numBlack = 0, numWhite = 0;
 
-  ss << "Current Board:\n";
-  ss << "  _ _ _ _ _ _ _ _ \n";
+  ss << ";Current Board:\n";
+  ss << ";  _ _ _ _ _ _ _ _ \n";
   for(int i = 0; i < 8; i++){
-    ss << (i+1);
-    //ss << (char)(97+i);
+    ss << ";" << (i+1);
     for(int j = 0; j < 8; j++){
       ss << "|";
       switch(tiles[i][j].state){
@@ -67,10 +72,10 @@ string Board::toString() const{
     }
     ss << "|\n";
   }
-  ss << "  a b c d e f g h\n";
-  ss << "\n";
-  ss << "White: " << numWhite << "\n";
-  ss << "Black: " << numBlack << "\n";
-  ss << "\n\n";
+  ss << ";  a b c d e f g h\n";
+  ss << ";\n";
+  ss << ";White: " << numWhite << "\n";
+  ss << ";Black: " << numBlack << "\n";
+  ss << ";\n;\n";
   return ss.str();
 }

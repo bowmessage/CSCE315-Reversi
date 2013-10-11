@@ -1,29 +1,19 @@
-//#define DEBUGOUTS 1
+#define DEBUGOUTS 1
 
 #include "Player.h"
 
 Player::Player(){
   team = EMPTY;
+  connectionSocketID = -1;
   isAI = false;
 }
 
-Player::Player(State t){
+Player::Player(State t, bool iA){
   team = t;
-  isAI = false;
+  connectionSocketID = -1;
+  isAI = iA;
 }
 
-int* Player::getMove(){
-  int* moveInts = NULL;
-  string moveString;
-
-  do{
-    cout << "Enter your move: ";
-    cin >> moveString;
-    moveInts = convertStrMoveToInts(moveString);
-  }while(moveInts == NULL);
-
-  return moveInts;
-}
 
 int* Player::convertStrMoveToInts(string s){
   if(s.size() != 2){
@@ -38,7 +28,7 @@ int* Player::convertStrMoveToInts(string s){
   int colNum = (int)(col-97);
   int rowNum = (int)(row-49);
 
-  if(true){//DEBUGOUTS){
+  if(DEBUGOUTS){
     cout << "colNum: " << colNum << ", rowNum: " << rowNum << "\n";
   }
 
@@ -46,4 +36,10 @@ int* Player::convertStrMoveToInts(string s){
   ret[1] = rowNum;
 
   return ret;
+}
+
+Move Player::getMove(Board& b){
+  if(isAI){
+  }
+  else return moveToMake;
 }
