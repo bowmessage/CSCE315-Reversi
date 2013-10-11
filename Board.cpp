@@ -54,11 +54,11 @@ string Board::toString() const{
       switch(tiles[i][j].state){
         case WHITE:
           numWhite++;
-          ss << "O";
+          ss << "@";
           break;
         case BLACK:
           numBlack++;
-          ss << "@";
+          ss << "O";
           break;
         case EMPTY:
           ss << "_";
