@@ -3,17 +3,19 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
+
+#include "Tokenizer.h"
 
 using namespace std;
 
 class Game;
 
-struct Token{
-  string value;
-};
-
 class Parser{
   public:
+
+    Tokenizer tokenizer;
+
     bool parse(Game& g, string tokens);
 };
 

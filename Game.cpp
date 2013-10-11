@@ -18,7 +18,7 @@ void Game::startGame(){
 void Game::startRound(){
   board = Board();
 
-  server.sendString("WELCOME");
+  server.sendString("WELCOME\n");
 
 
   p1 = Player(WHITE, false);
@@ -39,8 +39,17 @@ void Game::endGame(){
 }
 
 void Game::getInput(){
-  string in = server.readString();
-  parser.parse(*this, in);
+  bool hasParsed = false;
+  do{
+    string in = server.readString();
+    hasParsed = parser.parse(*this, in);
+    if(!hasParsed){
+      server.sendString("ERROR PARSING\n");
+    }
+    else{
+      server.sendString("OK\n");
+    }
+  }while(!hasParsed);
 }
 
 void Game::doTurn(){

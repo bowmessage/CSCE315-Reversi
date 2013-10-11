@@ -1,2 +1,2 @@
 all:
-	g++ -o game *.cpp *.h
+	g++ -ggdb -o game *.cpp *.h

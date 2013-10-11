@@ -3,12 +3,14 @@
 #include "Player.h"
 
 Player::Player(){
+  moveToMake.x = 0; moveToMake.y = 0; moveToMake.team = EMPTY;
   team = EMPTY;
   connectionSocketID = -1;
   isAI = false;
 }
 
 Player::Player(State t, bool iA){
+  moveToMake.x = 0; moveToMake.y = 0; moveToMake.team = t;
   team = t;
   connectionSocketID = -1;
   isAI = iA;
@@ -40,6 +42,8 @@ int* Player::convertStrMoveToInts(string s){
 
 Move Player::getMove(Board& b){
   if(isAI){
+    //TODO make AI pick random valid move
+    return moveToMake;
   }
   else return moveToMake;
 }
