@@ -1,16 +1,20 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include "Game.h"
+#include <string>
 #include <vector>
 
 using namespace std;
 
+class Game;
+
 struct Token{
+  string value;
 };
 
 class Parser{
-  bool parse(Game& g, vector<Token> tokens);
+  public:
+    bool parse(Game& g, string tokens);
 };
 
 

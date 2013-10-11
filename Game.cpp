@@ -28,6 +28,7 @@ void Game::startRound(){
   turnNum = 0;
 
   while(board.hasValidMoves()){
+    getInput();
     doTurn();
   }
   endGame();
@@ -35,6 +36,11 @@ void Game::startRound(){
 
 void Game::endGame(){
   server.endConnection();
+}
+
+void Game::getInput(){
+  string in = server.readString();
+  parser.parse(*this, in);
 }
 
 void Game::doTurn(){
