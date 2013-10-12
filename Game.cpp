@@ -1,3 +1,4 @@
+#include "Parser.h"
 #include "Game.h"
 
 Game::Game(){
@@ -24,11 +25,9 @@ void Game::startRound(){
   p1 = Player(WHITE, false);
   p2 = Player(BLACK, true);
 
-  isP1Turn = true;
   turnNum = 0;
 
   while(board.hasValidMoves()){
-    getInput();
     doTurn();
   }
   endGame();
@@ -54,20 +53,15 @@ void Game::getInput(){
 
 void Game::doTurn(){
   server.sendString(board.toString());
-  stringstream ss;
-  ss << "Starting Player " << ((!isP1Turn)+1) << "'s turn.\n";
-  server.sendString(ss.str());
-
-  Move m;
-  if(isP1Turn){
-    m = p1.getMove(board);
-    board.setState(m.team, m.x, m.y);
-  }
-  else{
-    m = p2.getMove(board);
-    board.setState(m.team, m.x, m.y);
-  }
-
-  isP1Turn = !isP1Turn;
+  getInput();
+  board.makeMove(p1.getMove(board));
+  Move m = p2.getMove(board);
+  board.makeMove(m);
+  server.sendString(m.toString());
+  
   turnNum++;
+
+  //server.sendString(";Starting Player 1's turn.\n");
+  //server.sendString(";Player 1 moves on: "
+  //server.sendString(";Starting Player 2's turn.\n");
 }

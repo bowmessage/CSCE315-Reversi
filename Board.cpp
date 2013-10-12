@@ -37,6 +37,13 @@ bool Board::hasValidMoves(){
   return true;
 }
 
+bool Board::makeMove(Move m){
+  //TODO check that this move is actually valid
+  moves.push_back(m);
+  tiles[m.y][m.x].setState(m.team);
+  return true;
+}
+
 
 
 

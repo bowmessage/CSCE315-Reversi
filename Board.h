@@ -9,9 +9,17 @@
 using namespace std;
 
 struct Move{
+  State team;
   int x;
   int y;
-  State team;
+
+  Move() {}
+  Move(State t, int xin, int yin) : team(t), x(xin), y(yin) {}
+  string toString(){
+    stringstream ss;
+    ss << (char)(x+97) << (char)(y+49) << "\n";
+    return ss.str();
+  }
 };
 
 class Board{
@@ -27,6 +35,7 @@ class Board{
 
     vector<Move> validMoves (State s);
     bool hasValidMoves();
+    bool makeMove(Move m);
 
 
 

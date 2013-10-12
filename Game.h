@@ -19,7 +19,6 @@ class Game{
     void endGame();
 
     int turnNum;
-    bool isP1Turn;
 
     Server server;
     Board board;
