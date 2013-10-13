@@ -78,13 +78,39 @@ bool Parser::move(){
   savePos();
   if((c = column()) != 0 && next() &&
       (r = row()) != 0){
-    game->p1.moveToMake = Move(game->p1.team, (c-97), (r-49));
+    Move m = Move(game->p1.team, (c-97), (r-49));
+    int* offset = game->board.checkForLineFrom(m.team, m.x, m.y);
+    if(offset != NULL){
+      cout << "got offset " << offset[0] << "\n";
+      m.dirX = offset[0];
+      m.dirY = offset[1];
+      game->p1.moveToMake = m;
+    }
+    delete[] offset;
     return true;
   }
-  else {
-    restorePos();
-    return false;
+  restorePos();
+  //Check if move is two characters right next to each other
+  //as opposed to two tokens.
+  string curStr = cur().value;
+  if(curStr.size() == 2){
+    c = curStr.at(0);
+    r = curStr.at(1);
+    if( (c >= 97) && (c <= 104) && (r >= 49) && (r <= 56)){
+      Move m = Move(game->p1.team, (c-97), (r-49));
+      int* offset = game->board.checkForLineFrom(m.team, m.x, m.y);
+      if(offset != NULL){
+        cout << "got offset " << offset[0] << "\n";
+        m.dirX = offset[0];
+        m.dirY = offset[1];
+        game->p1.moveToMake = m;
+      }
+      delete[] offset;
+      return true;
+    }
   }
+  restorePos();
+  return false;
 }
 
 char Parser::column(){

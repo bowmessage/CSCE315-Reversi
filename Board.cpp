@@ -30,22 +30,97 @@ State Board::getState(int x, int y){
 vector<Move> Board::validMoves(State s){
   vector<Move> ret;
   //TODO implememnt
+  for(int i = 0; i < 8; i++){
+    for(int j = 0; j < 8; j++){
+      if(getState(j,i) == EMPTY){
+        int* offset;
+        if((offset = checkForLineFrom(s,j,i)) != NULL){
+          Move m = Move(s,j,i);
+          m.dirX = offset[0];
+          m.dirY = offset[1];
+          ret.push_back(m);
+        }
+        delete[] offset;
+      }
+    }
+  }
+  cout << "---\n";
+  for(int i = 0; i < ret.size(); i++){
+    cout << ret[i].x << " " << ret[i].y << "\n";
+  }
+  cout << "---\n";
   return ret;
 }
+
+int* Board::checkForLineFrom(State s, int x, int y){
+  cout << "checking line from :" << x << ", " << y << "\n";
+  State opp = opposite(s);
+  for(int i = -1; i <= 1; i++){
+    for(int j = -1; j <= 1; j++){
+      if(x+i < 0 || x+i > 7 || y+j < 0 || y+j > 7) continue;
+      if(getState(x+i, y+j) == opp && checkForLineFromOffset(s,x,y,i,j)){
+        int* ret = new int[2];
+        ret[0] = i;
+        ret[1] = j;
+        return ret;
+      }
+    }
+  }
+  return NULL;
+}
+
+bool Board::checkForLineFromOffset(State s, int x, int y, int i, int j){
+  cout << "checking line from with offset: " << x << ", " << y << ", " << i << ", " << j << "\n";
+  //i and j are x and y offsets respectively.
+  int xn = x+i; int yn = y+j;
+  if(xn < 0 || yn < 0 || xn > 7 || yn > 7) return false;
+
+  State opp = opposite(s);
+  State cur = getState(xn, yn);
+
+  if(cur == EMPTY) return false;
+  if(cur == opp) return checkForLineFromOffset(s,xn,yn,i,j);//follow this line
+  if(cur == s) return true;
+}
+
+
 bool Board::hasValidMoves(){
-  //TODO implement
-  return true;
+  return hasValidMoves(WHITE) && hasValidMoves(BLACK);
+}
+
+bool Board::hasValidMoves(State s){
+  return validMoves(s).size() > 0;
 }
 
 bool Board::makeMove(Move m){
-  //TODO check that this move is actually valid
-  moves.push_back(m);
-  tiles[m.y][m.x].setState(m.team);
-  return true;
+  if(isValid(m)){
+    tiles[m.y][m.x].setState(m.team);
+    int curX = m.x + m.dirX;
+    int curY = m.y + m.dirY;
+    while(getState(curX, curY) == opposite(m.team)){
+
+      setState(m.team, curX, curY);
+      m.resultingTilesFlipped.push_back(Position(curX, curY));
+
+      curX += m.dirX;
+      curY += m.dirY;
+    }
+    moves.push_back(m);
+    return true;
+  }
+  else return false;
 }
 
+bool Board::isValid(Move m){
+  cout << "Checking on valid move: \n" << m.x << ", " << m.y << ", " << m.dirX << ", " << m.dirY << "\n";
+  return getState(m.x, m.y) == EMPTY &&
+    checkForLineFromOffset(m.team, m.x, m.y, m.dirX, m.dirY);
+}
 
-
+State Board::opposite(State s){
+  if(s == EMPTY) return EMPTY;
+  return (s==WHITE)?BLACK:WHITE;
+}
 
 
 ostream& operator<<(ostream& out, const Board b){

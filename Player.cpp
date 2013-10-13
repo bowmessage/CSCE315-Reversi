@@ -42,8 +42,10 @@ int* Player::convertStrMoveToInts(string s){
 
 Move Player::getMove(Board& b){
   if(isAI){
-    //TODO make AI pick random valid move
-    return moveToMake;
+    vector<Move> possible = b.validMoves(team);
+    int randomIndex = rand() % possible.size();
+    //TODO make AI better 
+    return possible[randomIndex];
   }
   else return moveToMake;
 }
