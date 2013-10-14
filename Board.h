@@ -58,6 +58,7 @@ class Board{
     int* checkForLineFrom(State s, int x, int y);
     bool checkForLineFromOffset(State s, int x, int y, int i, int j);
 
+    int numTilesOfState(State s);
     bool hasValidMoves(State s);
     bool isValid(Move m);
 

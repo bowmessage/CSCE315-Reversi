@@ -44,7 +44,6 @@ vector<Position> Board::positionsFlippedByMove(Move m){
 
 vector<Move> Board::validMoves(State s){
   vector<Move> ret;
-  //TODO implememnt
   for(int i = 0; i < 8; i++){
     for(int j = 0; j < 8; j++){
       if(getState(j,i) == EMPTY){
@@ -167,6 +166,16 @@ bool Board::isValid(Move m){
 State Board::opposite(State s){
   if(s == EMPTY) return EMPTY;
   return (s==WHITE)?BLACK:WHITE;
+}
+
+int Board::numTilesOfState(State s){
+  int ret = 0;
+  for(int i = 0; i < 8; i++){
+    for(int j = 0; j < 8; j++){
+      if(getState(i,j) == s) ret++;
+    }
+  }
+  return ret;
 }
 
 

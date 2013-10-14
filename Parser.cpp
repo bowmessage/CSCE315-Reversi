@@ -18,6 +18,7 @@ bool Parser::command(){
     return true;
   }
   else if(literal("DISPLAY")){
+    game->server.sendString(game->board.toString());
     return true;
   }
   else if(difficulty()){

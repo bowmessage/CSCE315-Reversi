@@ -30,10 +30,26 @@ void Game::startRound(){
   while(board.hasValidMoves()){
     doTurn();
   }
+
   endGame();
 }
 
 void Game::endGame(){
+  server.sendString(";The game is over.");
+  
+  int numWhite = board.numTilesOfState(WHITE);
+  int numBlack = board.numTilesOfState(BLACK);
+  if(numWhite > numBlack){
+    server.sendString(";WHITE won the game.");
+  }
+  else if(numWhite < numBlack){
+    server.sendString(";BLACK won the game.");
+  }
+  else{
+    server.sendString(";The game resulted in a tie.");
+  }
+
+  server.sendString(";Goodbye.");
   server.endConnection();
 }
 
