@@ -7,12 +7,7 @@ bool Parser::parse(Game& g, string t){
   curIndex = 0;
   tokens = tokenizer.tokenize(t);
 
-  cout << tokens.size();
-  for(int i = 0; i < tokens.size(); i++){
-    cout << tokens[i].value;
-  }
 
-  //TODO implement
   if(tokens.size() == 0) return false;
 
   return command() || move(); //All comments removed from vectors.
@@ -81,13 +76,16 @@ bool Parser::move(){
     Move m = Move(game->p1.team, (c-97), (r-49));
     int* offset = game->board.checkForLineFrom(m.team, m.x, m.y);
     if(offset != NULL){
-      cout << "got offset " << offset[0] << "\n";
       m.dirX = offset[0];
       m.dirY = offset[1];
-      game->p1.moveToMake = m;
+      if(game->board.isValid(m)) {
+        game->p1.moveToMake = m;
+        delete[] offset;
+        return true;
+      }
     }
     delete[] offset;
-    return true;
+    return false;
   }
   restorePos();
   //Check if move is two characters right next to each other
@@ -100,13 +98,16 @@ bool Parser::move(){
       Move m = Move(game->p1.team, (c-97), (r-49));
       int* offset = game->board.checkForLineFrom(m.team, m.x, m.y);
       if(offset != NULL){
-        cout << "got offset " << offset[0] << "\n";
         m.dirX = offset[0];
         m.dirY = offset[1];
-        game->p1.moveToMake = m;
+        if(game->board.isValid(m)) {
+          game->p1.moveToMake = m;
+          delete[] offset;
+          return true;
+        }
       }
       delete[] offset;
-      return true;
+      return false;
     }
   }
   restorePos();

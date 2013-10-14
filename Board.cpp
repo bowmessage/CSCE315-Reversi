@@ -44,16 +44,10 @@ vector<Move> Board::validMoves(State s){
       }
     }
   }
-  cout << "---\n";
-  for(int i = 0; i < ret.size(); i++){
-    cout << ret[i].x << " " << ret[i].y << "\n";
-  }
-  cout << "---\n";
   return ret;
 }
 
 int* Board::checkForLineFrom(State s, int x, int y){
-  cout << "checking line from :" << x << ", " << y << "\n";
   State opp = opposite(s);
   for(int i = -1; i <= 1; i++){
     for(int j = -1; j <= 1; j++){
@@ -70,8 +64,12 @@ int* Board::checkForLineFrom(State s, int x, int y){
 }
 
 bool Board::checkForLineFromOffset(State s, int x, int y, int i, int j){
-  cout << "checking line from with offset: " << x << ", " << y << ", " << i << ", " << j << "\n";
   //i and j are x and y offsets respectively.
+  
+  if(i == 0 && j == 0){
+    //No line if offset is 0..
+    return false;
+  }
   int xn = x+i; int yn = y+j;
   if(xn < 0 || yn < 0 || xn > 7 || yn > 7) return false;
 
@@ -112,7 +110,6 @@ bool Board::makeMove(Move m){
 }
 
 bool Board::isValid(Move m){
-  cout << "Checking on valid move: \n" << m.x << ", " << m.y << ", " << m.dirX << ", " << m.dirY << "\n";
   return getState(m.x, m.y) == EMPTY &&
     checkForLineFromOffset(m.team, m.x, m.y, m.dirX, m.dirY);
 }
