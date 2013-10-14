@@ -27,6 +27,21 @@ State Board::getState(int x, int y){
   return tiles[y][x].getState();
 }
 
+vector<Position> Board::positionsFlippedByMove(Move m){
+  vector<Position> ret;
+  for(int i = -1; i <= 1; i++){
+    for(int j = -1; j <= 1; j++){
+      vector<Position> posAtOffset = positionsInLineFromOffset(m.team, m.x, m.y, i, j);
+      if(posAtOffset.size() > 0){
+        for(int k = 0; k < posAtOffset.size(); k++){
+          ret.push_back(posAtOffset[k]);
+        }
+      }
+    }
+  }
+  return ret;
+}
+
 vector<Move> Board::validMoves(State s){
   vector<Move> ret;
   //TODO implememnt
@@ -81,6 +96,34 @@ bool Board::checkForLineFromOffset(State s, int x, int y, int i, int j){
   if(cur == s) return true;
 }
 
+vector<Position> Board::positionsInLineFromOffset(State s, int x, int y, int i, int j){
+  vector<Position> blankRet;//Make this just in case we don't actually have a line here.
+  vector<Position> ret;
+  if(i == 0 && j == 0){
+    //if offset is 0, no line here.
+    return ret;
+  }
+
+  int xn = x+i; int yn = y+j;
+  State opp = opposite(s);
+  State cur = getState(xn, yn);
+  while(cur == opp){
+    ret.push_back(Position(xn,yn));
+    xn += i; yn += j;
+    if(xn < 0 || yn < 0 || xn > 7 || yn > 7) return blankRet;
+    cur = getState(xn, yn);
+  }
+
+  if(cur == s){
+    //success, this is a line.
+    return ret;
+  }
+  else{
+    //cur must equal EMPTY, no line here.
+    return blankRet;
+  }
+}
+
 
 bool Board::hasValidMoves(){
   return hasValidMoves(WHITE) && hasValidMoves(BLACK);
@@ -92,8 +135,15 @@ bool Board::hasValidMoves(State s){
 
 bool Board::makeMove(Move m){
   if(isValid(m)){
-    tiles[m.y][m.x].setState(m.team);
-    int curX = m.x + m.dirX;
+    setState(m.team, m.x, m.y);
+
+    vector<Position> positionsFlipped = positionsFlippedByMove(m);
+    m.resultingTilesFlipped = positionsFlipped;
+    for(int i = 0; i < positionsFlipped.size(); i++){
+      setState(m.team, positionsFlipped[i].x, positionsFlipped[i].y);
+    }
+
+    /*int curX = m.x + m.dirX;
     int curY = m.y + m.dirY;
     while(getState(curX, curY) == opposite(m.team)){
 
@@ -102,7 +152,7 @@ bool Board::makeMove(Move m){
 
       curX += m.dirX;
       curY += m.dirY;
-    }
+    }*/
     moves.push_back(m);
     return true;
   }

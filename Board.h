@@ -49,10 +49,12 @@ class Board{
     void setState(State s, int x, int y);
     State getState(int x, int y);
 
+    vector<Position> positionsFlippedByMove(Move m);
     vector<Move> validMoves (State s);
     bool hasValidMoves();
     bool makeMove(Move m);
 
+    vector<Position> positionsInLineFromOffset(State s, int x, int y, int i, int j);
     int* checkForLineFrom(State s, int x, int y);
     bool checkForLineFromOffset(State s, int x, int y, int i, int j);
 
