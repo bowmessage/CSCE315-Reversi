@@ -1,6 +1,10 @@
 #include "Parser.h"
 #include "Game.h"
 
+Parser::Parser(){
+  justChangedMove = false;
+}
+
 bool Parser::parse(Game& g, string t){
   game = &g;
 
@@ -15,6 +19,7 @@ bool Parser::parse(Game& g, string t){
 
 bool Parser::command(){
   if(literal("EXIT")){
+    game->server.endConnection();
     return true;
   }
   else if(literal("DISPLAY")){
@@ -22,9 +27,12 @@ bool Parser::command(){
     return true;
   }
   else if(difficulty()){
+    //TODO implement
     return true;
   }
   else if(literal("UNDO")){
+    game->undoLastTurn();
+    game->server.sendString(game->board.toString());
     return true;
   }
   savePos();
@@ -82,6 +90,7 @@ bool Parser::move(){
       if(game->board.isValid(m)) {
         game->p1.moveToMake = m;
         delete[] offset;
+        justChangedMove = true;
         return true;
       }
     }
@@ -104,6 +113,7 @@ bool Parser::move(){
         if(game->board.isValid(m)) {
           game->p1.moveToMake = m;
           delete[] offset;
+          justChangedMove = true;
           return true;
         }
       }

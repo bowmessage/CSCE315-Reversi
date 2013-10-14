@@ -15,8 +15,9 @@ class Game{
     void startGame();
     void startRound();
     void doTurn();
-    void getInput();
+    bool getInput();
     void endGame();
+    void undoLastTurn();
 
     int turnNum;
 

@@ -15,6 +15,8 @@ class Game;
 class Parser{
   public:
 
+    Parser();
+
     Tokenizer tokenizer;
 
     Game* game;
@@ -24,6 +26,7 @@ class Parser{
     int saveIndex;
 
     bool parse(Game& g, string tokens);
+    bool justChangedMove;
 
     bool command();
     bool literal(string s);

@@ -62,6 +62,8 @@ class Board{
     bool hasValidMoves(State s);
     bool isValid(Move m);
 
+    void undoLastMove();
+
     State opposite(State s);
     friend ostream& operator<<(ostream& out, const Board b);
     string toString() const;

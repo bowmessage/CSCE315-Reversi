@@ -180,6 +180,18 @@ int Board::numTilesOfState(State s){
   return ret;
 }
 
+void Board::undoLastMove(){
+  if(moves.size() >= 1){
+    Move m = moves[moves.size()-1];
+    for(int i = 0; i < m.resultingTilesFlipped.size(); i++){
+      Position p = m.resultingTilesFlipped[i];
+      setState(opposite(getState(p.x, p.y)), p.x, p.y);
+    }
+    setState(EMPTY, m.x, m.y);
+    moves.erase(moves.begin() + moves.size() - 1);
+  }
+}
+
 
 ostream& operator<<(ostream& out, const Board b){
   out << b.toString();

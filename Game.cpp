@@ -53,7 +53,10 @@ void Game::endGame(){
   server.endConnection();
 }
 
-void Game::getInput(){
+bool Game::getInput(){
+  //This function returns true when it is ready for a new move to be made.
+  //It returns false when a setting is made or a non move input is received.
+  
   bool hasParsed = false;
   do{
     string in = server.readString();
@@ -65,11 +68,17 @@ void Game::getInput(){
       server.sendString("OK\n");
     }
   }while(!hasParsed);
+  
+  if(parser.justChangedMove){
+    parser.justChangedMove = false;
+    return true;
+  }
+  return false;
 }
 
 void Game::doTurn(){
   server.sendString(board.toString());
-  getInput();
+  while(!getInput()){}
   board.makeMove(p1.getMove(board));
   Move m = p2.getMove(board);
   if(board.makeMove(m)){
@@ -80,8 +89,12 @@ void Game::doTurn(){
   }
 
   turnNum++;
+}
 
-  //server.sendString(";Starting Player 1's turn.\n");
-  //server.sendString(";Player 1 moves on: "
-  //server.sendString(";Starting Player 2's turn.\n");
+void Game::undoLastTurn(){
+  if(turnNum >= 1){
+    turnNum--;
+    board.undoLastMove();
+    board.undoLastMove();
+  }
 }
