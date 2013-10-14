@@ -43,6 +43,9 @@ int* Player::convertStrMoveToInts(string s){
 Move Player::getMove(Board& b){
   if(isAI){
     vector<Move> possible = b.validMoves(team);
+    if(possible.size() == 0){
+      return Move(BLACK, -1,-1); //return an invalid move. will be detected as invalid and not made.
+    }
     int randomIndex = rand() % possible.size();
     //TODO make AI better 
     return possible[randomIndex];

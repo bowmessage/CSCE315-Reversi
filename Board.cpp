@@ -20,10 +20,12 @@ Board::~Board(){
 
 
 void Board::setState(State s, int x, int y){
+  if( x < 0 || y < 0 || x > 7 || y > 7) return;
   tiles[y][x].setState(s);
 }
 
 State Board::getState(int x, int y){
+  if( x < 0 || y < 0 || x > 7 || y > 7) return EMPTY;
   return tiles[y][x].getState();
 }
 

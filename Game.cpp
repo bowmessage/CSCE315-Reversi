@@ -59,7 +59,7 @@ void Game::getInput(){
     string in = server.readString();
     hasParsed = parser.parse(*this, in);
     if(!hasParsed){
-      server.sendString("ERROR PARSING\n");
+      server.sendString("ILLEGAL\n");
     }
     else{
       server.sendString("OK\n");
@@ -72,9 +72,13 @@ void Game::doTurn(){
   getInput();
   board.makeMove(p1.getMove(board));
   Move m = p2.getMove(board);
-  board.makeMove(m);
-  server.sendString(m.toString());
-  
+  if(board.makeMove(m)){
+    server.sendString(m.toString());
+  }
+  else{
+    server.sendString(";P2 Passes");
+  }
+
   turnNum++;
 
   //server.sendString(";Starting Player 1's turn.\n");
