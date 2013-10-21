@@ -17,10 +17,11 @@ class Game{
     void doTurn();
     bool getInput();
     void endGame();
-    void undoLastTurn();
+    bool undoLastTurn();
 
     int turnNum;
     bool shouldDisplayBoard;
+    bool isInSetup;
 
     Server server;
     Board board;

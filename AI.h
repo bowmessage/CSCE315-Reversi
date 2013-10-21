@@ -3,6 +3,10 @@
 
 #include "Board.h"
 
+enum Difficulty{
+  EASY, MEDIUM, HARD
+};
+
 struct Node{
 
   vector<Node*> children;
@@ -110,6 +114,8 @@ class AI{
     State team;
 
     Node move_tree;
+
+    Difficulty difficulty;
     
     AI();
     AI(State t);

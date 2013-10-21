@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include "arpa/inet.h"
 
 #include "Tokenizer.h"
 #include "Board.h"
@@ -33,6 +34,7 @@ class Parser{
     bool difficulty();
     bool server();
     bool port();
+    bool team();
 
     bool move();
     char column();

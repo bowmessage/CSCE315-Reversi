@@ -32,29 +32,55 @@ bool Parser::command(){
     }
     return true;
   }
+  else if(literal("UNDO")){
+    if(game->undoLastTurn()){
+      game->server.sendString(game->board.toString());
+      return true;
+    }
+    else return false;
+  }
   else if(difficulty()){
-    //TODO implement
+    if(!game->isInSetup) return false;
+    if(cur().value == "EASY")
+      game->p2.ai.difficulty = EASY;
+    else if(cur().value == "MEDIUM")
+      game->p2.ai.difficulty = MEDIUM;
+    else if(cur().value == "HARD")
+      game->p2.ai.difficulty = HARD;
     return true;
   }
-  else if(literal("UNDO")){
-    game->undoLastTurn();
-    game->server.sendString(game->board.toString());
+  else if(team()){
+    if(!game->isInSetup) return false;
+    if(cur().value == "WHITE"){
+      game->p1.team = WHITE;
+      game->p2.team = BLACK;
+    }
+    else if(cur().value == "BLACK"){
+      game->p1.team = BLACK;
+      game->p2.team = WHITE;
+    }
+    return true;
+  }
+  if(literal("HUMAN-AI")){
+    if(!game->isInSetup) return false;
     return true;
   }
   savePos();
-  if(literal("HUMAN-AI") && next() &&
-      server() && next() &&
-      port() && next() &&
-      difficulty() && next() &&
-      difficulty()){
-    return true;
-  }
-  restorePos();
   if(literal("AI-AI") && next() &&
       server() && next() &&
       port() && next() &&
       difficulty() && next() &&
       difficulty()){
+    if(!game->isInSetup) return false;
+
+    restorePos(); next();
+    string IPVal = cur().value; next();
+    string portVal = cur().value; next();
+    string myAIDifficulty = cur().value; next();
+    string theirAIDifficulty = cur().value;
+
+    game->server.connectTo();
+
     return true;
   }
   restorePos(); return false;
@@ -68,13 +94,18 @@ bool Parser::difficulty(){
 }
 
 bool Parser::server(){
-  //TODO implement
-  return true;
+  struct sockaddr_in sa;
+  int result = inet_pton(AF_INET, cur().value.c_str(), &(sa.sin_addr));
+  return result != 0;
 }
 
 bool Parser::port(){
-  //TODO implement
-  return true;
+  int result = atoi(cur().value.c_str());
+  return result > 0 && result <= 65535;
+}
+
+bool Parser::team(){
+  return (cur().value == "WHITE" || cur().value == "BLACK");
 }
 
 
@@ -97,6 +128,7 @@ bool Parser::move(){
         game->p1.moveToMake = m;
         delete[] offset;
         justChangedMove = true;
+        game->isInSetup = false;
         return true;
       }
     }
@@ -120,6 +152,7 @@ bool Parser::move(){
           game->p1.moveToMake = m;
           delete[] offset;
           justChangedMove = true;
+          game->isInSetup = false;
           return true;
         }
       }

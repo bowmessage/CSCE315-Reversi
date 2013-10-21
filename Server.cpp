@@ -22,10 +22,24 @@ void Server::startServer(){
 
 void Server::acceptConnection(){
   connectID = accept(socketID, (sockaddr *) NULL, NULL);
+  cout << "got connect\n";
 }
 void Server::endConnection(){
   shutdown(connectID, 2);
   close(connectID);
+}
+
+void Server::connectTo(string IP, int portNum){
+  int connectingSocketID = socket(AF_INET, SOCK_STREAM, 0);
+  struct sockaddr_in remote;
+
+  remote.sin_family = AF_INET;
+  inet_aton(IP.c_str(), &remote.sin_addr);
+  remote.sin_port = htons(portNum);
+
+  int res = connect(connectingSocketID, (struct sockaddr*)&remote, sizeof(remote)); 
+  cout << "tried to connect, res: " << res << "\n";
+  cout << "errno: " << errno << "\n";
 }
 
 void Server::sendString(string s){
@@ -34,5 +48,6 @@ void Server::sendString(string s){
 
 string Server::readString(){
   read(connectID, readBuf, 1024);
+  cout << "recv: " << string(readBuf) << "\n";
   return string(readBuf);
 }

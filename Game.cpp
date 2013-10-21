@@ -4,6 +4,7 @@
 Game::Game(){
   turnNum = 0;
   shouldDisplayBoard = false;
+  isInSetup = true;
 }
 
 void Game::startGame(){
@@ -11,12 +12,12 @@ void Game::startGame(){
   server.startServer();
   cout << "Welcome to Reversi.\n";
   cout << "The game server has started. Waiting for connections...\n";
+  isInSetup = true;
   startRound();
 }
 
 void Game::startRound(){
   server.acceptConnection();
-  cout << "Connection received! Game starting.\n";
 
   board = Board();
 
@@ -53,6 +54,7 @@ void Game::endGame(){
 
   server.sendString(";Goodbye.\n");
   server.endConnection();
+  startRound();
 }
 
 bool Game::getInput(){
@@ -95,10 +97,12 @@ void Game::doTurn(){
   turnNum++;
 }
 
-void Game::undoLastTurn(){
+bool Game::undoLastTurn(){
   if(turnNum >= 1){
     turnNum--;
     board.undoLastMove();
     board.undoLastMove();
+    return true;
   }
+  else return false;
 }

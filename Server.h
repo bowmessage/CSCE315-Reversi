@@ -8,6 +8,7 @@
 #include <cstring>
 #include <unistd.h>
 #include <iostream>
+#include <cerrno>
 
 using namespace std;
 
@@ -24,6 +25,7 @@ class Server{
 
     void acceptConnection();
     void endConnection();
+    void connectTo();
 
     void sendString(string s);
     string readString();

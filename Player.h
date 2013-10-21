@@ -20,6 +20,7 @@ class Player{
 
     AI ai;
     bool isAI;
+
     int connectionSocketID;
 
     Move moveToMake;
