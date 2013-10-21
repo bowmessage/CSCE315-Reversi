@@ -20,6 +20,7 @@ class Game{
     void undoLastTurn();
 
     int turnNum;
+    bool shouldDisplayBoard;
 
     Server server;
     Board board;

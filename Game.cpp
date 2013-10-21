@@ -2,6 +2,8 @@
 #include "Game.h"
 
 Game::Game(){
+  turnNum = 0;
+  shouldDisplayBoard = false;
 }
 
 void Game::startGame(){
@@ -9,14 +11,13 @@ void Game::startGame(){
   server.startServer();
   cout << "Welcome to Reversi.\n";
   cout << "The game server has started. Waiting for connections...\n";
-  server.acceptConnection();
-  cout << "Connection received! Game starting.\n";
   startRound();
-  server.sendString(board.toString());
-  server.readString();
 }
 
 void Game::startRound(){
+  server.acceptConnection();
+  cout << "Connection received! Game starting.\n";
+
   board = Board();
 
   server.sendString("WELCOME\n");
@@ -26,6 +27,7 @@ void Game::startRound(){
   p2 = Player(BLACK, true);
 
   turnNum = 0;
+  shouldDisplayBoard = false;
 
   while(board.hasValidMoves()){
     doTurn();
@@ -35,21 +37,21 @@ void Game::startRound(){
 }
 
 void Game::endGame(){
-  server.sendString(";The game is over.");
+  server.sendString(";The game is over.\n");
   
   int numWhite = board.numTilesOfState(WHITE);
   int numBlack = board.numTilesOfState(BLACK);
   if(numWhite > numBlack){
-    server.sendString(";WHITE won the game.");
+    server.sendString(";WHITE won the game.\n");
   }
   else if(numWhite < numBlack){
-    server.sendString(";BLACK won the game.");
+    server.sendString(";BLACK won the game.\n");
   }
   else{
-    server.sendString(";The game resulted in a tie.");
+    server.sendString(";The game resulted in a tie.\n");
   }
 
-  server.sendString(";Goodbye.");
+  server.sendString(";Goodbye.\n");
   server.endConnection();
 }
 
@@ -77,7 +79,9 @@ bool Game::getInput(){
 }
 
 void Game::doTurn(){
-  server.sendString(board.toString());
+  if(shouldDisplayBoard){
+    server.sendString(board.toString());
+  }
   while(!getInput()){}
   board.makeMove(p1.getMove(board));
   Move m = p2.getMove(board);

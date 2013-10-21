@@ -12,6 +12,7 @@ bool Parser::parse(Game& g, string t){
   tokens = tokenizer.tokenize(t);
 
 
+
   if(tokens.size() == 0) return false;
 
   return command() || move(); //All comments removed from vectors.
@@ -19,11 +20,16 @@ bool Parser::parse(Game& g, string t){
 
 bool Parser::command(){
   if(literal("EXIT")){
+    game->server.sendString(";Goodbye.\n");
     game->server.endConnection();
+    game->startRound();
     return true;
   }
   else if(literal("DISPLAY")){
-    game->server.sendString(game->board.toString());
+    game->shouldDisplayBoard = !game->shouldDisplayBoard;
+    if(game->shouldDisplayBoard){
+      game->server.sendString(game->board.toString());
+    }
     return true;
   }
   else if(difficulty()){
@@ -104,8 +110,8 @@ bool Parser::move(){
   if(curStr.size() == 2){
     c = curStr.at(0);
     r = curStr.at(1);
-    if( (c >= 97) && (c <= 104) && (r >= 49) && (r <= 56)){
-      Move m = Move(game->p1.team, (c-97), (r-49));
+    if( (c >= 65) && (c <= 72) && (r >= 49) && (r <= 56)){
+      Move m = Move(game->p1.team, (c-65), (r-49));
       int* offset = game->board.checkForLineFrom(m.team, m.x, m.y);
       if(offset != NULL){
         m.dirX = offset[0];
@@ -129,7 +135,7 @@ char Parser::column(){
   string c = cur().value;
   if(c.size() != 1) return 0;
   char ch = c.at(0);
-  if(ch >= 97 && ch <= 104){
+  if(ch >= 65 && ch <= 72){
     return ch;
   }
   else return 0;

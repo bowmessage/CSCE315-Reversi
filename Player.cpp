@@ -14,7 +14,7 @@ Player::Player(State t, bool iA){
   team = t;
   connectionSocketID = -1;
   isAI = iA;
-  ai = AI();
+  ai = AI(t);
 }
 
 

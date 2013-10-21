@@ -8,6 +8,7 @@ vector<Token> Tokenizer::tokenize(string s){
     string cur;
     inStream >> cur;
     if(cur.size() > 0 && cur.at(0) == ';') return ret;//If we've started a comment token, we're done.
+    transform(cur.begin(), cur.end(), cur.begin(), ::toupper);
     ret.push_back(Token(cur));
   }
   return ret;
