@@ -13,6 +13,14 @@ Board::Board(){
   tiles[4][4] = Tile(WHITE);
 }
 
+Board::Board(const Board& b){
+  for(int i = 0; i < 8; i++){
+    for(int j = 0; j < 8; j++){
+      tiles[i][j] = b.tiles[i][j];
+    }
+  }
+}
+
 Board::~Board(){
 }
 

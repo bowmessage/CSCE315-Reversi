@@ -14,10 +14,11 @@ Player::Player(State t, bool iA){
   team = t;
   connectionSocketID = -1;
   isAI = iA;
+  ai = AI();
 }
 
 
-int* Player::convertStrMoveToInts(string s){
+/*int* Player::convertStrMoveToInts(string s){
   if(s.size() != 2){
     cout << "Please only use 2 characters to enter your move.\n";
     return NULL;
@@ -38,17 +39,18 @@ int* Player::convertStrMoveToInts(string s){
   ret[1] = rowNum;
 
   return ret;
-}
+}*/
 
 Move Player::getMove(Board& b){
   if(isAI){
-    vector<Move> possible = b.validMoves(team);
+    /*vector<Move> possible = b.validMoves(team);
     if(possible.size() == 0){
       return Move(BLACK, -1,-1); //return an invalid move. will be detected as invalid and not made.
     }
     int randomIndex = rand() % possible.size();
     //TODO make AI better 
-    return possible[randomIndex];
+    return possible[randomIndex];*/
+    return ai.getMove(b);
   }
   else return moveToMake;
 }

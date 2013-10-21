@@ -41,6 +41,7 @@ struct Move{
 class Board{
   public:
     Board();
+    Board(const Board& b);
     ~Board();
 
     Tile tiles[8][8];

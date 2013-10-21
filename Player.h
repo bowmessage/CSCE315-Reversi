@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "AI.h"
 #include "Board.h"
 #include "Tile.h"
 #include <string>
@@ -17,13 +18,14 @@ class Player{
 
     State team;
 
+    AI ai;
     bool isAI;
     int connectionSocketID;
 
     Move moveToMake;
 
     Move getMove(Board& b);
-    int* convertStrMoveToInts(string s);
+    //int* convertStrMoveToInts(string s);
 
 
 };

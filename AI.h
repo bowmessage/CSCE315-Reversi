@@ -1,37 +1,62 @@
+#ifndef AI_H
+#define AI_H
+
 #include "Board.h"
 
 struct Node{
-	Node *right;
-	Node *left;
-	Move possible_move;
 
+  vector<Node*> children;
+
+	Move moveToGetHere;
+  Board boardHere;
+  int boardScoreHere;
+
+  Node(){
+  }
+  Node(Board b){
+    boardHere = b;
+  }
 	Node(Move move){
-		right = NULL;
-		left = NULL;
-		possible_move = move;
+		moveToGetHere = move;
 	}
-	
-	void addRight(Node r){
-		right = r;
-	}
-	
-	void addLeft(Node l){
-		left = l;
-	}
-	
-	void removeLeft(){ left = NULL; }
-	
-	void removeRight(){ right = NULL; }
 
-}
+  ~Node(){
+    for(int i = 0; i < children.size(); i++){
+      delete children[i];
+    }
+  }
+
+  void fillChildrenToDepth(State team, int d){
+    if(d < 0) return;
+    vector<Move> moves = boardHere.validMoves(team);
+    for(int i = 0; i < moves.size(); i++){
+      Board newBoard = Board(boardHere);
+      newBoard.makeMove(moves[i]);
+      Node* c = new Node(newBoard);
+      c->fillChildrenToDepth(newBoard.opposite(team), d-1);
+      children.push_back(c);
+    }
+
+  }
+
+};
+
 
 class AI{
   public:
-	Node move_tree;
+
+    State team;
+
+    Node move_tree;
+    
+    AI();
+    AI(State t);
+    
+    void updateMoveTree(Board b);
+    int evaluateBoard(Board b);
+
+    Move getMove(Board b);
 	
-	AI();
-	~AI();
-	
-	updateMoveTree(Board gameboard);
-	
-}
+};
+
+#endif
