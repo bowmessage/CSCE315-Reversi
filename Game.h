@@ -11,17 +11,22 @@ class Parser;
 class Game{
   public:
     Game();
+    Game(int p);
 
     void startGame();
+    void createPlayers(bool isHumanAiRound);
     void startRound();
-    void doTurn();
+    void beginTurnLoop();
+    void doTurn(bool shouldGetInput);
     bool getInput();
     void endGame();
     bool undoLastTurn();
+    void sendStr(string s);
 
     int turnNum;
     bool shouldDisplayBoard;
     bool isInSetup;
+    bool isHumanAiGame;
 
     Server server;
     Board board;

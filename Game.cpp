@@ -5,56 +5,95 @@ Game::Game(){
   turnNum = 0;
   shouldDisplayBoard = false;
   isInSetup = true;
+  isHumanAiGame = true;
+}
+
+Game::Game(int p){
+  turnNum = 0;
+  shouldDisplayBoard = false;
+  isInSetup = true;
+  isHumanAiGame = true;
+
+  server = Server();
+  server.startServer(p);
 }
 
 void Game::startGame(){
-  server = Server();
-  server.startServer();
   cout << "Welcome to Reversi.\n";
   cout << "The game server has started. Waiting for connections...\n";
-  isInSetup = true;
-  startRound();
-}
 
-void Game::startRound(){
   server.acceptConnection();
-
-  board = Board();
-
-  server.sendString("WELCOME\n");
-
-
-  p1 = Player(WHITE, false);
-  p2 = Player(BLACK, true);
 
   turnNum = 0;
   shouldDisplayBoard = false;
+  isInSetup = true;
+  p1 = Player();
+  p2 = Player();
 
-  while(board.hasValidMoves()){
-    doTurn();
+  server.sendString("WELCOME\n");
+
+  while(isInSetup){
+    getInput();
   }
 
+  beginTurnLoop();
+
+
+}
+
+void Game::createPlayers(bool isHumanAiRound){
+  if(isHumanAiRound){
+    p1 = Player(WHITE, false);
+    p2 = Player(BLACK, true);
+  }
+  else{
+    p1 = Player(WHITE, true);
+    p2 = Player(BLACK, false);
+  }
+}
+
+void Game::startRound(){
+  board = Board();
+  turnNum = 0;
+  isInSetup = false;
+}
+
+void Game::beginTurnLoop(){
+  while(board.hasValidMoves()){
+    doTurn(true);
+  }
   endGame();
 }
 
+void Game::sendStr(string s){
+  sleep(1);
+    cout << ";sending: " << s;
+  if(isHumanAiGame)
+    server.sendString(s);
+  else{
+    server.sendStringToOtherAi(s);
+  }
+}
+
+
 void Game::endGame(){
-  server.sendString(";The game is over.\n");
+  sendStr(";The game is over.\n");
   
   int numWhite = board.numTilesOfState(WHITE);
   int numBlack = board.numTilesOfState(BLACK);
   if(numWhite > numBlack){
-    server.sendString(";WHITE won the game.\n");
+    sendStr(";WHITE won the game.\n");
   }
   else if(numWhite < numBlack){
-    server.sendString(";BLACK won the game.\n");
+    sendStr(";BLACK won the game.\n");
   }
   else{
-    server.sendString(";The game resulted in a tie.\n");
+    sendStr(";The game resulted in a tie.\n");
   }
 
-  server.sendString(";Goodbye.\n");
+  sendStr(";Goodbye.\n");
   server.endConnection();
-  startRound();
+  startGame();
 }
 
 bool Game::getInput(){
@@ -63,13 +102,17 @@ bool Game::getInput(){
   
   bool hasParsed = false;
   do{
-    string in = server.readString();
+    string in;
+    if(isHumanAiGame)
+      in = server.readString();
+    else in = server.readStringFromOtherAi();
+    cout << ";received: " << in << "\n";
     hasParsed = parser.parse(*this, in);
     if(!hasParsed){
-      server.sendString("ILLEGAL\n");
+      sendStr("ILLEGAL\n");
     }
     else{
-      server.sendString("OK\n");
+      sendStr("OK\n");
     }
   }while(!hasParsed);
   
@@ -80,18 +123,35 @@ bool Game::getInput(){
   return false;
 }
 
-void Game::doTurn(){
+void Game::doTurn(bool shouldGetInput){
   if(shouldDisplayBoard){
-    server.sendString(board.toString());
+    sendStr(board.toString());
   }
-  while(!getInput()){}
-  board.makeMove(p1.getMove(board));
-  Move m = p2.getMove(board);
-  if(board.makeMove(m)){
-    server.sendString(m.toString());
+  if(isHumanAiGame && shouldGetInput){
+    while(!getInput()){}
+  }
+  if(isHumanAiGame){
+    board.makeMove(p1.getMove(board));
+    Move m = p2.getMove(board);
+    if(board.makeMove(m)){
+      sendStr(m.toString());
+    }
+    else{
+      sendStr(";P2 Passes\n");
+    }
   }
   else{
-    server.sendString(";P2 Passes");
+    Move m = p1.getMove(board);
+    if(board.makeMove(m)){
+      sendStr(m.toString());
+    }
+    else{
+      sendStr(";P1 Passes\n");
+    }
+    board.makeMove(p2.getMove(board));
+  }
+  if(!isHumanAiGame && shouldGetInput){
+    while(!getInput()){}
   }
 
   turnNum++;

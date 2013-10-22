@@ -19,16 +19,21 @@ class Server{
 
     int socketID;
     int connectID;
+    int otherAiConnectID;
     char readBuf[1024];
+    char otherAiReadBuf[1024];
 
-    void startServer();
+    void startServer(int portNum);
 
     void acceptConnection();
     void endConnection();
-    void connectTo();
+    void connectTo(string IP, int portNum);
 
     void sendString(string s);
     string readString();
+
+    void sendStringToOtherAi(string s);
+    string readStringFromOtherAi();
 };
 
 #endif

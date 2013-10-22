@@ -20,27 +20,28 @@ bool Parser::parse(Game& g, string t){
 
 bool Parser::command(){
   if(literal("EXIT")){
-    game->server.sendString(";Goodbye.\n");
+    game->sendStr(";Goodbye.\n");
     game->server.endConnection();
-    game->startRound();
+    game->startGame();
     return true;
   }
   else if(literal("DISPLAY")){
     game->shouldDisplayBoard = !game->shouldDisplayBoard;
     if(game->shouldDisplayBoard){
-      game->server.sendString(game->board.toString());
+      game->sendStr(game->board.toString());
     }
     return true;
   }
   else if(literal("UNDO")){
     if(game->undoLastTurn()){
-      game->server.sendString(game->board.toString());
+      game->sendStr(game->board.toString());
       return true;
     }
     else return false;
   }
   else if(difficulty()){
     if(!game->isInSetup) return false;
+    if(game->p1.team == EMPTY || game->p2.team == EMPTY) return false;
     if(cur().value == "EASY")
       game->p2.ai.difficulty = EASY;
     else if(cur().value == "MEDIUM")
@@ -63,6 +64,8 @@ bool Parser::command(){
   }
   if(literal("HUMAN-AI")){
     if(!game->isInSetup) return false;
+    game->createPlayers(true);
+    game->isHumanAiGame = true;
     return true;
   }
   savePos();
@@ -79,7 +82,35 @@ bool Parser::command(){
     string myAIDifficulty = cur().value; next();
     string theirAIDifficulty = cur().value;
 
-    game->server.connectTo();
+    game->server.connectTo(IPVal, atoi(portVal.c_str()));
+    game->server.readStringFromOtherAi();
+    game->server.sendStringToOtherAi("HUMAN-AI\n");
+    game->server.readStringFromOtherAi();
+    sleep(3);
+    game->server.sendStringToOtherAi(theirAIDifficulty);
+    game->server.readStringFromOtherAi();
+    sleep(3);
+    game->server.sendStringToOtherAi("DISPLAY\n");
+    game->server.readStringFromOtherAi();
+    sleep(3);
+
+    game->createPlayers(false);
+
+
+    if(myAIDifficulty == "EASY"){
+      game->p1.ai.difficulty = EASY;
+    }
+    else if(myAIDifficulty == "MEDIUM"){
+      game->p1.ai.difficulty = MEDIUM;
+    }
+    else if(myAIDifficulty == "HARD"){
+      game->p1.ai.difficulty = HARD;
+    }
+
+
+    game->startRound();
+    game->isHumanAiGame = false;
+    game->beginTurnLoop();
 
     return true;
   }
@@ -125,10 +156,16 @@ bool Parser::move(){
       m.dirX = offset[0];
       m.dirY = offset[1];
       if(game->board.isValid(m)) {
-        game->p1.moveToMake = m;
+        if(game->isHumanAiGame)
+          game->p1.moveToMake = m;
+        else
+          game->p2.moveToMake = m;
         delete[] offset;
         justChangedMove = true;
-        game->isInSetup = false;
+        if(game->isInSetup){
+          game->startRound();
+          game->doTurn(false);
+        }
         return true;
       }
     }
@@ -149,10 +186,16 @@ bool Parser::move(){
         m.dirX = offset[0];
         m.dirY = offset[1];
         if(game->board.isValid(m)) {
-          game->p1.moveToMake = m;
+          if(game->isHumanAiGame)
+            game->p1.moveToMake = m;
+          else
+            game->p2.moveToMake = m;
           delete[] offset;
           justChangedMove = true;
-          game->isInSetup = false;
+          if(game->isInSetup){
+            game->startRound();
+            game->doTurn(false);
+          }
           return true;
         }
       }
