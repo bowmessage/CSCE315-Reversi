@@ -150,7 +150,12 @@ bool Parser::move(){
   savePos();
   if((c = column()) != 0 && next() &&
       (r = row()) != 0){
-    Move m = Move(game->p1.team, (c-97), (r-49));
+    State s;
+    if(game->isHumanAiGame)
+      s = game->p1.team;
+    else
+      s = game->p2.team;
+    Move m = Move(s, (c-65), (r-49));
     int* offset = game->board.checkForLineFrom(m.team, m.x, m.y);
     if(offset != NULL){
       m.dirX = offset[0];
@@ -164,7 +169,7 @@ bool Parser::move(){
         justChangedMove = true;
         if(game->isInSetup){
           game->startRound();
-          game->doTurn(false);
+          //game->doTurn(true);
         }
         return true;
       }
@@ -180,7 +185,12 @@ bool Parser::move(){
     c = curStr.at(0);
     r = curStr.at(1);
     if( (c >= 65) && (c <= 72) && (r >= 49) && (r <= 56)){
-      Move m = Move(game->p1.team, (c-65), (r-49));
+      State s;
+      if(game->isHumanAiGame)
+        s = game->p1.team;
+      else
+        s = game->p2.team;
+      Move m = Move(s, (c-65), (r-49));
       int* offset = game->board.checkForLineFrom(m.team, m.x, m.y);
       if(offset != NULL){
         m.dirX = offset[0];
@@ -194,7 +204,7 @@ bool Parser::move(){
           justChangedMove = true;
           if(game->isInSetup){
             game->startRound();
-            game->doTurn(false);
+            //game->doTurn(true);
           }
           return true;
         }

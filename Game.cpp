@@ -36,6 +36,7 @@ void Game::startGame(){
     getInput();
   }
 
+  doTurn(false);
   beginTurnLoop();
 
 
@@ -109,11 +110,13 @@ bool Game::getInput(){
     else in = server.readStringFromOtherAi();
     cout << ";received: " << in << "\n";
     hasParsed = parser.parse(*this, in);
-    if(!hasParsed){
-      sendStr("ILLEGAL\n");
-    }
-    else{
-      sendStr("OK\n");
+    if(isHumanAiGame){
+      if(!hasParsed){
+        sendStr("ILLEGAL\n");
+      }
+      else{
+        sendStr("OK\n");
+      }
     }
   }while(!hasParsed);
   
@@ -125,11 +128,12 @@ bool Game::getInput(){
 }
 
 void Game::doTurn(bool shouldGetInput){
-  if(shouldDisplayBoard){
-    sendStr(board.toString());
-  }
+  cout << "starting do turn, should getinput: " << shouldGetInput << "\n";
+  cout << "thijnks of board as: " << board.toString() << "\n";
   if(isHumanAiGame && shouldGetInput){
+    cout << "about to get input in human ai mode\n";
     while(!getInput()){}
+    cout << "got input in human ai mode\n";
   }
   if(isHumanAiGame){
     board.makeMove(p1.getMove(board));
@@ -149,10 +153,14 @@ void Game::doTurn(bool shouldGetInput){
     else{
       sendStr(";P1 Passes\n");
     }
+    if(shouldGetInput){
+      while(!getInput()){}
+    }
     board.makeMove(p2.getMove(board));
   }
-  if(!isHumanAiGame && shouldGetInput){
-    while(!getInput()){}
+
+  if(shouldDisplayBoard){
+    sendStr(board.toString());
   }
 
   turnNum++;
