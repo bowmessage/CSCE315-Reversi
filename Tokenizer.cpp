@@ -9,7 +9,11 @@ vector<Token> Tokenizer::tokenize(string s){
     inStream >> cur;
     if(cur.size() > 0 && cur.at(0) == ';') return ret;//If we've started a comment token, we're done.
     transform(cur.begin(), cur.end(), cur.begin(), ::toupper);
-    ret.push_back(Token(cur));
+
+    //string cur_trim = ltrim(rtrim(cur));
+
+    //if(cur_trim.size() > 0)
+      ret.push_back(Token(cur));
   }
   return ret;
 }

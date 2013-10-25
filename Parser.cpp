@@ -13,7 +13,7 @@ bool Parser::parse(Game& g, string t){
 
 
 
-  if(tokens.size() == 0) return false;
+  if(tokens.size() == 0) return true;
 
   return command() || move(); //All comments removed from vectors.
 }
@@ -90,9 +90,9 @@ bool Parser::command(){
     game->server.sendStringToOtherAi(theirAIDifficulty);
     game->server.readStringFromOtherAi();
     sleep(3);
-    game->server.sendStringToOtherAi("DISPLAY\n");
-    game->server.readStringFromOtherAi();
-    sleep(3);
+    //game->server.sendStringToOtherAi("DISPLAY\n");
+    //game->server.readStringFromOtherAi();
+    //sleep(3);
 
     game->createPlayers(false);
 

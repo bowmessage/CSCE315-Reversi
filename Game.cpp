@@ -72,6 +72,7 @@ void Game::sendStr(string s){
     server.sendString(s);
   else{
     server.sendStringToOtherAi(s);
+    server.readStringFromOtherAi();
   }
 }
 
