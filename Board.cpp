@@ -135,7 +135,7 @@ vector<Position> Board::positionsInLineFromOffset(State s, int x, int y, int i, 
 
 
 bool Board::hasValidMoves(){
-  return hasValidMoves(WHITE) && hasValidMoves(BLACK);
+  return hasValidMoves(WHITE) || hasValidMoves(BLACK);
 }
 
 bool Board::hasValidMoves(State s){

@@ -1,2 +1,2 @@
 all:
-	g++ -ggdb -o game *.cpp *.h
+	g++ -ggdb -lfltk -lfltk_images -lX11 -w -fpermissive -o game *.cpp *.h *.cxx

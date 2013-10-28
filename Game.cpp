@@ -67,7 +67,7 @@ void Game::beginTurnLoop(){
 }
 
 void Game::sendStr(string s){
-  sleep(1);
+  //sleep(1);
     cout << ";sending: " << s;
   if(isHumanAiGame)
     server.sendString(s);
