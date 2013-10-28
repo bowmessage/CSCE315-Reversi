@@ -146,10 +146,25 @@ bool Parser::literal(string s){
 }
 
 bool Parser::move(){
+  bool isMove = false;;
   char c, r;
   savePos();
   if((c = column()) != 0 && next() &&
       (r = row()) != 0){
+      isMove = true;
+  }
+  restorePos();
+  //Check if move is two characters right next to each other
+  //as opposed to two tokens.
+  string curStr = cur().value;
+  if(curStr.size() == 2){
+    c = curStr.at(0);
+    r = curStr.at(1);
+    if( (c >= 65) && (c <= 72) && (r >= 49) && (r <= 56)){
+      isMove = true;
+    }
+  }
+  if(isMove){
     State s;
     if(game->isHumanAiGame)
       s = game->p1.team;
@@ -176,42 +191,6 @@ bool Parser::move(){
     }
     delete[] offset;
     return false;
-  }
-  restorePos();
-  //Check if move is two characters right next to each other
-  //as opposed to two tokens.
-  string curStr = cur().value;
-  if(curStr.size() == 2){
-    c = curStr.at(0);
-    r = curStr.at(1);
-    if( (c >= 65) && (c <= 72) && (r >= 49) && (r <= 56)){
-      State s;
-      if(game->isHumanAiGame)
-        s = game->p1.team;
-      else
-        s = game->p2.team;
-      Move m = Move(s, (c-65), (r-49));
-      int* offset = game->board.checkForLineFrom(m.team, m.x, m.y);
-      if(offset != NULL){
-        m.dirX = offset[0];
-        m.dirY = offset[1];
-        if(game->board.isValid(m)) {
-          if(game->isHumanAiGame)
-            game->p1.moveToMake = m;
-          else
-            game->p2.moveToMake = m;
-          delete[] offset;
-          justChangedMove = true;
-          if(game->isInSetup){
-            game->startRound();
-            //game->doTurn(true);
-          }
-          return true;
-        }
-      }
-      delete[] offset;
-      return false;
-    }
   }
   restorePos();
   return false;
