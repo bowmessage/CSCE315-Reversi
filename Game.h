@@ -27,6 +27,7 @@ class Game{
     bool shouldDisplayBoard;
     bool isInSetup;
     bool isHumanAiGame;
+    int winner; // 0 when no one has won, 1 for white, 2 for black.
 
     Server server;
     Board board;

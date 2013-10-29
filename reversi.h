@@ -4,12 +4,16 @@
 #define reversi_h
 #include <FL/Fl.H>
 #include <FL/Fl_PNG_Image.H>
+#include <FL/fl_ask.H>
 #include "Game.h"
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Return_Button.H>
 #include <FL/Fl_Menu_Bar.H>
+#include <FL/Fl_Box.H>
+#include <FL/Fl_Input.H>
+#include <FL/Fl_Choice.H>
 
 class ReversiUI {
 public:
@@ -156,10 +160,28 @@ private:
   static Fl_Menu_Item menu_[];
   inline void cb_Human_i(Fl_Menu_*, void*);
   static void cb_Human(Fl_Menu_*, void*);
+  inline void cb_AI_i(Fl_Menu_*, void*);
+  static void cb_AI(Fl_Menu_*, void*);
 public:
+  Fl_Box *winnerText;
+  Fl_Double_Window *connectWindow;
+  Fl_Input *ipInputBox;
+  Fl_Input *portInputBox;
+private:
+  inline void cb_Connect_i(Fl_Button*, void*);
+  static void cb_Connect(Fl_Button*, void*);
+  inline void cb_Cancel_i(Fl_Return_Button*, void*);
+  static void cb_Cancel(Fl_Return_Button*, void*);
+public:
+  Fl_Choice *myDiffChoice;
+  static Fl_Menu_Item menu_myDiffChoice[];
+  Fl_Choice *theirDiffChoice;
+  static Fl_Menu_Item menu_theirDiffChoice[];
   void show(int portNum);
   void updateUI();
   ~ReversiUI();
   void startLocalGame();
+  void startRemoteGame(string ipVal, int portVal, int myDiff, int theirDiff);
+  void buttonPressed(int buttonNum);
 };
 #endif

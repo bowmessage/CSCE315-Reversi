@@ -22,7 +22,6 @@ void Server::startServer(int portNum){
 
 void Server::acceptConnection(){
   connectID = accept(socketID, (sockaddr *) NULL, NULL);
-  cout << "got connect\n";
 }
 void Server::endConnection(){
   shutdown(connectID, 2);

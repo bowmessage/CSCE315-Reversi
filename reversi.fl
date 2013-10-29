@@ -5,6 +5,9 @@ code_name {.cxx}
 decl {\#include <FL/Fl_PNG_Image.H>} {public global
 } 
 
+decl {\#include <FL/fl_ask.H>} {public global
+} 
+
 decl {\#include "Game.h"} {public global
 } 
 
@@ -25,849 +28,272 @@ class ReversiUI {open
   Function {ReversiUI(Game* game)} {open
   } {
     Fl_Window window {open
-      xywh {367 270 800 615} type Double visible
+      xywh {1041 298 430 475} type Double visible
     } {
       Fl_Group buttonGroup {
-        label Board
-        xywh {30 90 410 410} box GTK_THIN_DOWN_BOX
+        xywh {10 30 410 410} box GTK_THIN_DOWN_BOX
       } {
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {40 100 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {20 40 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {90 100 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {70 40 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {140 100 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {120 40 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {190 100 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {170 40 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {240 100 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {220 40 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {290 100 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {270 40 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {340 100 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {320 40 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {390 100 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {370 40 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {40 150 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {20 90 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {90 150 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {70 90 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {140 150 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {120 90 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {190 150 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {170 90 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {240 150 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {220 90 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {290 150 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {270 90 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {340 150 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {320 90 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {390 150 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {370 90 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {40 200 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {20 140 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {90 200 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {70 140 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {140 200 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {120 140 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {190 200 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {170 140 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {240 200 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {220 140 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {290 200 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {270 140 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {340 200 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {320 140 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {390 200 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {370 140 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {40 250 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {20 190 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {90 250 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {70 190 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {140 250 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {120 190 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {190 250 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {170 190 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {240 250 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {220 190 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {290 250 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {270 190 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {340 250 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {320 190 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {390 250 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {370 190 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {40 300 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {20 240 40 45}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {90 300 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {70 240 40 45}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {140 300 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {120 240 40 45}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {190 300 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {170 240 40 45}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {240 300 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {220 240 40 45}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {290 300 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {270 240 40 45}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {340 300 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {320 240 40 45}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {390 300 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {370 240 40 45}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {40 350 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {20 295 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {90 350 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {70 295 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {140 350 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {120 295 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {190 350 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {170 295 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {240 350 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {220 295 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {290 350 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {270 295 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {340 350 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {320 295 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {390 350 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {370 295 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {40 400 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {20 345 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {90 400 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {70 345 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {140 400 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {120 345 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {190 400 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {170 345 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {240 400 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {220 345 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {290 400 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {270 345 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {340 400 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {320 345 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {390 400 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {370 345 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {40 450 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {20 395 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {90 450 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {70 395 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {140 450 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {120 395 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {190 450 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {170 395 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {240 450 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {220 395 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {290 450 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {270 395 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {340 450 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {320 395 40 40}
         }
         Fl_Button {} {
-          callback {int buttonNum = (int) v;
-int x = buttonNum % 8;
-int y = buttonNum / 8;
-int r = y + 49;
-int c = x + 65;
-stringstream ss;
-ss << (char)c << (char)r;
-serv.sendStringToOtherAi(ss.str());
-//write(g->server.connectID, ss.str().c_str(), ss.str().size());
-//g->board.setState(WHITE, x, y);}
-          xywh {390 450 40 40}
+          callback {buttonPressed((int) v);}
+          xywh {370 395 40 40}
         }
       }
       Fl_Return_Button {} {
         label Exit
         callback {window->hide();}
-        xywh {720 590 62 15}
+        xywh {360 450 62 15}
       }
       Fl_Menu_Bar {} {open
         xywh {0 0 800 20}
@@ -883,12 +309,74 @@ serv.sendStringToOtherAi(ss.str());
           }
           MenuItem {} {
             label {AI-AI}
+            callback {connectWindow->show();}
             xywh {0 0 28 17}
           }
         }
       }
+      Fl_Box winnerText {selected
+        xywh {10 445 290 25} labelsize 20
+      }
     }
-    code {g = game;} {}
+    Fl_Window connectWindow {open
+      xywh {1215 93 315 125} type Double visible
+    } {
+      Fl_Input ipInputBox {
+        label IP
+        xywh {60 14 145 21}
+      }
+      Fl_Input portInputBox {
+        label Port
+        xywh {60 44 145 21}
+      }
+      Fl_Button {} {
+        label Connect
+        callback {connectWindow->hide();
+startRemoteGame(string(ipInputBox->value()),atoi(portInputBox->value()), myDiffChoice->value(), theirDiffChoice->value());}
+        xywh {225 15 65 20}
+      }
+      Fl_Return_Button {} {
+        label Cancel
+        callback {connectWindow->hide();}
+        xywh {225 45 65 20}
+      }
+      Fl_Choice myDiffChoice {
+        label {My Difficulty} open
+        xywh {145 69 62 21} down_box BORDER_BOX
+      } {
+        MenuItem {} {
+          label EASY
+          xywh {0 0 28 17}
+        }
+        MenuItem {} {
+          label MEDIUM
+          xywh {10 10 28 17}
+        }
+        MenuItem {} {
+          label HARD
+          xywh {20 20 28 17}
+        }
+      }
+      Fl_Choice theirDiffChoice {
+        label {Their Difficulty} open
+        xywh {145 95 62 20} down_box BORDER_BOX
+      } {
+        MenuItem {} {
+          label EASY
+          xywh {10 10 28 17}
+        }
+        MenuItem {} {
+          label MEDIUM
+          xywh {20 20 28 17}
+        }
+        MenuItem {} {
+          label HARD
+          xywh {30 30 28 17}
+        }
+      }
+    }
+    code {g = game;
+connectWindow->hide();} {}
   }
   Function {show(int portNum)} {open
   } {
@@ -906,7 +394,19 @@ window->show();//argc, argv);} {}
   }
   Function {updateUI()} {open return_type void
   } {
-    code {Board b = g->board;
+    code {if(g->winner != 0){
+	if(g->winner == 1){
+		winnerText->label("White won!");
+	}
+	else if(g->winner == 2){
+		winnerText->label("Black won!");
+	}
+	else if(g->winner == 3){
+		winnerText->label("It was a tie!");
+	}
+}
+
+Board b = g->board;
 
 for(int i = 0; i < 8; i++){
 	for(int j = 0; j < 8; j++){
@@ -947,5 +447,37 @@ serv.connectTo("127.0.0.1", localGamePort);
 serv.readStringFromOtherAi();
 serv.sendStringToOtherAi("HUMAN-AI");
 serv.readStringFromOtherAi();} {}
+  }
+  Function {startRemoteGame(string ipVal, int portVal, int myDiff, int theirDiff)} {open
+  } {
+    code {inGame = true;
+serv.connectTo("127.0.0.1", localGamePort);
+serv.readStringFromOtherAi();
+stringstream ss;
+//0=easy, 2=hard
+string myDiffStr = "easy";
+string theirDiffStr = "easy";
+if(myDiff == 1) myDiffStr = "medium";
+else if(myDiff == 2) myDiffStr = "hard";
+if(theirDiff == 1) theirDiffStr = "medium";
+else if(theirDiff == 2) theirDiffStr = "hard";
+ss << "AI-AI " << ipVal << " " << portVal << " " << myDiffStr << " " << theirDiffStr;
+serv.sendStringToOtherAi(ss.str());
+serv.readStringFromOtherAi();} {}
+  }
+  Function {buttonPressed(int buttonNum)} {open
+  } {
+    code {if(inGame){
+int x = buttonNum % 8;
+int y = buttonNum / 8;
+int r = y + 49;
+int c = x + 65;
+stringstream ss;
+ss << (char)c << (char)r;
+serv.sendStringToOtherAi(ss.str());
+}
+else{
+	fl_alert("Please start a game using the Game menu above.");
+}} {}
   }
 } 

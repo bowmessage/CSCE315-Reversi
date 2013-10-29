@@ -57,6 +57,7 @@ void Game::startRound(){
   board = Board();
   turnNum = 0;
   isInSetup = false;
+  winner = 0;
 }
 
 void Game::beginTurnLoop(){
@@ -67,8 +68,6 @@ void Game::beginTurnLoop(){
 }
 
 void Game::sendStr(string s){
-  //sleep(1);
-    cout << ";sending: " << s;
   if(isHumanAiGame)
     server.sendString(s);
   else{
@@ -85,12 +84,15 @@ void Game::endGame(){
   int numBlack = board.numTilesOfState(BLACK);
   if(numWhite > numBlack){
     sendStr(";WHITE won the game.\n");
+    winner = 1;
   }
   else if(numWhite < numBlack){
     sendStr(";BLACK won the game.\n");
+    winner = 2;
   }
   else{
     sendStr(";The game resulted in a tie.\n");
+    winner = 3;
   }
 
   sendStr(";Goodbye.\n");
@@ -108,7 +110,6 @@ bool Game::getInput(){
     if(isHumanAiGame)
       in = server.readString();
     else in = server.readStringFromOtherAi();
-    cout << ";received: " << in << "\n";
     hasParsed = parser.parse(*this, in);
     if(isHumanAiGame){
       if(!hasParsed){
@@ -128,12 +129,8 @@ bool Game::getInput(){
 }
 
 void Game::doTurn(bool shouldGetInput){
-  cout << "starting do turn, should getinput: " << shouldGetInput << "\n";
-  cout << "thijnks of board as: " << board.toString() << "\n";
   if(isHumanAiGame && shouldGetInput){
-    cout << "about to get input in human ai mode\n";
     while(!getInput()){}
-    cout << "got input in human ai mode\n";
   }
   if(isHumanAiGame){
     board.makeMove(p1.getMove(board));
