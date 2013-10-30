@@ -27,11 +27,12 @@ class ReversiUI {open
   }
   Function {ReversiUI(Game* game)} {open
   } {
-    Fl_Window window {open
-      xywh {1041 298 430 475} type Double visible
+    Fl_Window window {
+      label Reversi open
+      xywh {964 206 430 510} type Double align 80 visible
     } {
       Fl_Group buttonGroup {
-        xywh {10 30 410 410} box GTK_THIN_DOWN_BOX
+        xywh {10 30 410 415} box DOWN_BOX
       } {
         Fl_Button {} {
           callback {buttonPressed((int) v);}
@@ -290,11 +291,6 @@ class ReversiUI {open
           xywh {370 395 40 40}
         }
       }
-      Fl_Return_Button {} {
-        label Exit
-        callback {window->hide();}
-        xywh {360 450 62 15}
-      }
       Fl_Menu_Bar {} {open
         xywh {0 0 800 20}
       } {
@@ -304,45 +300,62 @@ class ReversiUI {open
         } {
           MenuItem {} {
             label {Human-AI}
-            callback {startLocalGame();}
+            callback {humanAiWindow->show();}
             xywh {0 0 28 17}
           }
           MenuItem {} {
             label {AI-AI}
-            callback {connectWindow->show();}
+            callback {ipInputBox->value("127.0.0.1");
+connectWindow->show();}
+            xywh {0 0 28 17}
+          }
+          MenuItem {} {
+            label Quit
+            callback {if(fl_ask("Are you sure you want to quit Reversi?")){
+	window->hide();
+}}
             xywh {0 0 28 17}
           }
         }
       }
-      Fl_Box winnerText {selected
-        xywh {10 445 290 25} labelsize 20
+      Fl_Box winnerText {
+        xywh {10 480 410 25} labelsize 20
+      }
+      Fl_Box whiteScore {
+        label {White:}
+        xywh {10 450 195 25} box DOWN_FRAME labelsize 20 align 20
+      }
+      Fl_Box blackScore {
+        label {Black:}
+        xywh {210 450 210 25} box DOWN_FRAME labelsize 20 align 24
       }
     }
-    Fl_Window connectWindow {open
-      xywh {1215 93 315 125} type Double visible
+    Fl_Window connectWindow {
+      label {New AI-AI Game} open
+      xywh {1229 186 340 120} type Double align 80 visible
     } {
       Fl_Input ipInputBox {
         label IP
-        xywh {60 14 145 21}
+        xywh {110 9 145 21}
       }
       Fl_Input portInputBox {
         label Port
-        xywh {60 44 145 21}
+        xywh {110 39 145 21}
       }
       Fl_Button {} {
         label Connect
         callback {connectWindow->hide();
 startRemoteGame(string(ipInputBox->value()),atoi(portInputBox->value()), myDiffChoice->value(), theirDiffChoice->value());}
-        xywh {225 15 65 20}
+        xywh {265 10 65 20}
       }
       Fl_Return_Button {} {
         label Cancel
         callback {connectWindow->hide();}
-        xywh {225 45 65 20}
+        xywh {265 40 65 20}
       }
       Fl_Choice myDiffChoice {
-        label {My Difficulty} open
-        xywh {145 69 62 21} down_box BORDER_BOX
+        label {My Difficulty}
+        xywh {110 64 145 21} down_box BORDER_BOX
       } {
         MenuItem {} {
           label EASY
@@ -358,8 +371,41 @@ startRemoteGame(string(ipInputBox->value()),atoi(portInputBox->value()), myDiffC
         }
       }
       Fl_Choice theirDiffChoice {
-        label {Their Difficulty} open
-        xywh {145 95 62 20} down_box BORDER_BOX
+        label {Their Difficulty}
+        xywh {110 90 145 20} down_box BORDER_BOX
+      } {
+        MenuItem {} {
+          label EASY
+          xywh {10 10 28 17}
+        }
+        MenuItem {} {
+          label MEDIUM
+          xywh {20 20 28 17}
+        }
+        MenuItem {} {
+          label HARD
+          xywh {30 30 28 17}
+        }
+      }
+    }
+    Fl_Window humanAiWindow {
+      label {New Human-AI Game} open
+      xywh {1229 345 340 75} type Double visible
+    } {
+      Fl_Button {} {
+        label Connect
+        callback {humanAiWindow->hide();
+startLocalGame(aiDiffChoice->value());}
+        xywh {265 15 65 20}
+      }
+      Fl_Return_Button {} {
+        label Cancel
+        callback {humanAiWindow->hide();}
+        xywh {265 45 65 20}
+      }
+      Fl_Choice aiDiffChoice {
+        label {AI Difficulty} open
+        xywh {110 14 145 21} down_box BORDER_BOX
       } {
         MenuItem {} {
           label EASY
@@ -408,6 +454,10 @@ window->show();//argc, argv);} {}
 
 Board b = g->board;
 
+int numWhite = 0;
+int numBlack = 0;
+
+
 for(int i = 0; i < 8; i++){
 	for(int j = 0; j < 8; j++){
 		State s = b.getState(i,j);
@@ -415,9 +465,11 @@ for(int i = 0; i < 8; i++){
 		switch(s){
 			case WHITE:
 				imgPtr = wImage;
+				numWhite++;
 			break;
 			case BLACK:
 				imgPtr = bImage;
+				numBlack++;
 			break;
 			default:
 				imgPtr = NULL;
@@ -433,18 +485,43 @@ for(int i = 0; i < 8; i++){
 		buttonGroup->child(j*8 + i)->redraw();
 		
 	}
-}} {}
+}
+
+stringstream ssWhite;
+stringstream ssBlack;
+ssWhite << "White: " << numWhite;
+ssBlack << "Black: " << numBlack;
+whiteScore->copy_label(ssWhite.str().c_str());
+blackScore->copy_label(ssBlack.str().c_str());
+whiteScore->redraw();
+blackScore->redraw();} {selected
+    }
   }
   Function {~ReversiUI()} {open
   } {
     code {delete bImage;
 delete wImage;} {}
   }
-  Function {startLocalGame()} {open
+  Function {startLocalGame(int difficulty)} {open
   } {
     code {inGame = true;
 serv.connectTo("127.0.0.1", localGamePort);
 serv.readStringFromOtherAi();
+string diffStr = "EASY";
+switch(difficulty){
+	case 0:
+		diffStr = "EASY";
+	break;
+	case 1:
+		diffStr = "MEDIUM";
+	break;
+	case 2:
+		diffStr = "HARD";
+	break;
+}
+serv.sendStringToOtherAi(diffStr);
+serv.readStringFromOtherAi();
+usleep(100000);
 serv.sendStringToOtherAi("HUMAN-AI");
 serv.readStringFromOtherAi();} {}
   }

@@ -450,31 +450,35 @@ void ReversiUI::cb_3f(Fl_Button* o, void* v) {
   ((ReversiUI*)(o->parent()->parent()->user_data()))->cb_3f_i(o,v);
 }
 
-void ReversiUI::cb_Exit_i(Fl_Return_Button*, void*) {
-  window->hide();
-}
-void ReversiUI::cb_Exit(Fl_Return_Button* o, void* v) {
-  ((ReversiUI*)(o->parent()->user_data()))->cb_Exit_i(o,v);
-}
-
 void ReversiUI::cb_Human_i(Fl_Menu_*, void*) {
-  startLocalGame();
+  humanAiWindow->show();
 }
 void ReversiUI::cb_Human(Fl_Menu_* o, void* v) {
   ((ReversiUI*)(o->parent()->user_data()))->cb_Human_i(o,v);
 }
 
 void ReversiUI::cb_AI_i(Fl_Menu_*, void*) {
-  connectWindow->show();
+  ipInputBox->value("127.0.0.1");
+connectWindow->show();
 }
 void ReversiUI::cb_AI(Fl_Menu_* o, void* v) {
   ((ReversiUI*)(o->parent()->user_data()))->cb_AI_i(o,v);
+}
+
+void ReversiUI::cb_Quit_i(Fl_Menu_*, void*) {
+  if(fl_ask("Are you sure you want to quit Reversi?")){
+	window->hide();
+};
+}
+void ReversiUI::cb_Quit(Fl_Menu_* o, void* v) {
+  ((ReversiUI*)(o->parent()->user_data()))->cb_Quit_i(o,v);
 }
 
 Fl_Menu_Item ReversiUI::menu_[] = {
  {"Game", 0,  0, 0, 64, FL_NORMAL_LABEL, 0, 14, 0},
  {"Human-AI", 0,  (Fl_Callback*)ReversiUI::cb_Human, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
  {"AI-AI", 0,  (Fl_Callback*)ReversiUI::cb_AI, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
+ {"Quit", 0,  (Fl_Callback*)ReversiUI::cb_Quit, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0},
  {0,0,0,0,0,0,0,0,0}
 };
@@ -508,11 +512,34 @@ Fl_Menu_Item ReversiUI::menu_theirDiffChoice[] = {
  {0,0,0,0,0,0,0,0,0}
 };
 
+void ReversiUI::cb_Connect1_i(Fl_Button*, void*) {
+  humanAiWindow->hide();
+startLocalGame(aiDiffChoice->value());
+}
+void ReversiUI::cb_Connect1(Fl_Button* o, void* v) {
+  ((ReversiUI*)(o->parent()->user_data()))->cb_Connect1_i(o,v);
+}
+
+void ReversiUI::cb_Cancel1_i(Fl_Return_Button*, void*) {
+  humanAiWindow->hide();
+}
+void ReversiUI::cb_Cancel1(Fl_Return_Button* o, void* v) {
+  ((ReversiUI*)(o->parent()->user_data()))->cb_Cancel1_i(o,v);
+}
+
+Fl_Menu_Item ReversiUI::menu_aiDiffChoice[] = {
+ {"EASY", 0,  0, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
+ {"MEDIUM", 0,  0, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
+ {"HARD", 0,  0, 0, 0, FL_NORMAL_LABEL, 0, 14, 0},
+ {0,0,0,0,0,0,0,0,0}
+};
+
 ReversiUI::ReversiUI(Game* game) {
-  { window = new Fl_Double_Window(430, 475);
+  { window = new Fl_Double_Window(430, 510, "Reversi");
     window->user_data((void*)(this));
-    { buttonGroup = new Fl_Group(10, 30, 410, 410);
-      buttonGroup->box(FL_GTK_THIN_DOWN_BOX);
+    window->align(Fl_Align(FL_ALIGN_CLIP|FL_ALIGN_INSIDE));
+    { buttonGroup = new Fl_Group(10, 30, 410, 415);
+      buttonGroup->box(FL_DOWN_BOX);
       { Fl_Button* o = new Fl_Button(20, 40, 40, 40);
         o->callback((Fl_Callback*)cb_);
       } // Fl_Button* o
@@ -707,39 +734,61 @@ ReversiUI::ReversiUI(Game* game) {
       } // Fl_Button* o
       buttonGroup->end();
     } // Fl_Group* buttonGroup
-    { Fl_Return_Button* o = new Fl_Return_Button(360, 450, 62, 15, "Exit");
-      o->callback((Fl_Callback*)cb_Exit);
-    } // Fl_Return_Button* o
     { Fl_Menu_Bar* o = new Fl_Menu_Bar(0, 0, 800, 20);
       o->menu(menu_);
     } // Fl_Menu_Bar* o
-    { winnerText = new Fl_Box(10, 445, 290, 25);
+    { winnerText = new Fl_Box(10, 480, 410, 25);
       winnerText->labelsize(20);
     } // Fl_Box* winnerText
+    { whiteScore = new Fl_Box(10, 450, 195, 25, "White:");
+      whiteScore->box(FL_DOWN_FRAME);
+      whiteScore->labelsize(20);
+      whiteScore->align(Fl_Align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE));
+    } // Fl_Box* whiteScore
+    { blackScore = new Fl_Box(210, 450, 210, 25, "Black:");
+      blackScore->box(FL_DOWN_FRAME);
+      blackScore->labelsize(20);
+      blackScore->align(Fl_Align(FL_ALIGN_RIGHT|FL_ALIGN_INSIDE));
+    } // Fl_Box* blackScore
     window->end();
   } // Fl_Double_Window* window
-  { connectWindow = new Fl_Double_Window(315, 125);
+  { connectWindow = new Fl_Double_Window(340, 120, "New AI-AI Game");
     connectWindow->user_data((void*)(this));
-    { ipInputBox = new Fl_Input(60, 14, 145, 21, "IP");
+    connectWindow->align(Fl_Align(FL_ALIGN_CLIP|FL_ALIGN_INSIDE));
+    { ipInputBox = new Fl_Input(110, 9, 145, 21, "IP");
     } // Fl_Input* ipInputBox
-    { portInputBox = new Fl_Input(60, 44, 145, 21, "Port");
+    { portInputBox = new Fl_Input(110, 39, 145, 21, "Port");
     } // Fl_Input* portInputBox
-    { Fl_Button* o = new Fl_Button(225, 15, 65, 20, "Connect");
+    { Fl_Button* o = new Fl_Button(265, 10, 65, 20, "Connect");
       o->callback((Fl_Callback*)cb_Connect);
     } // Fl_Button* o
-    { Fl_Return_Button* o = new Fl_Return_Button(225, 45, 65, 20, "Cancel");
+    { Fl_Return_Button* o = new Fl_Return_Button(265, 40, 65, 20, "Cancel");
       o->callback((Fl_Callback*)cb_Cancel);
     } // Fl_Return_Button* o
-    { myDiffChoice = new Fl_Choice(145, 69, 62, 21, "My Difficulty");
+    { myDiffChoice = new Fl_Choice(110, 64, 145, 21, "My Difficulty");
       myDiffChoice->down_box(FL_BORDER_BOX);
       myDiffChoice->menu(menu_myDiffChoice);
     } // Fl_Choice* myDiffChoice
-    { theirDiffChoice = new Fl_Choice(145, 95, 62, 20, "Their Difficulty");
+    { theirDiffChoice = new Fl_Choice(110, 90, 145, 20, "Their Difficulty");
       theirDiffChoice->down_box(FL_BORDER_BOX);
       theirDiffChoice->menu(menu_theirDiffChoice);
     } // Fl_Choice* theirDiffChoice
     connectWindow->end();
   } // Fl_Double_Window* connectWindow
+  { humanAiWindow = new Fl_Double_Window(340, 75, "New Human-AI Game");
+    humanAiWindow->user_data((void*)(this));
+    { Fl_Button* o = new Fl_Button(265, 15, 65, 20, "Connect");
+      o->callback((Fl_Callback*)cb_Connect1);
+    } // Fl_Button* o
+    { Fl_Return_Button* o = new Fl_Return_Button(265, 45, 65, 20, "Cancel");
+      o->callback((Fl_Callback*)cb_Cancel1);
+    } // Fl_Return_Button* o
+    { aiDiffChoice = new Fl_Choice(110, 14, 145, 21, "AI Difficulty");
+      aiDiffChoice->down_box(FL_BORDER_BOX);
+      aiDiffChoice->menu(menu_aiDiffChoice);
+    } // Fl_Choice* aiDiffChoice
+    humanAiWindow->end();
+  } // Fl_Double_Window* humanAiWindow
   g = game;
   connectWindow->hide();
 }
@@ -773,6 +822,10 @@ void ReversiUI::updateUI() {
   
   Board b = g->board;
   
+  int numWhite = 0;
+  int numBlack = 0;
+  
+  
   for(int i = 0; i < 8; i++){
   	for(int j = 0; j < 8; j++){
   		State s = b.getState(i,j);
@@ -780,9 +833,11 @@ void ReversiUI::updateUI() {
   		switch(s){
   			case WHITE:
   				imgPtr = wImage;
+  				numWhite++;
   			break;
   			case BLACK:
   				imgPtr = bImage;
+  				numBlack++;
   			break;
   			default:
   				imgPtr = NULL;
@@ -799,6 +854,15 @@ void ReversiUI::updateUI() {
   		
   	}
   }
+  
+  stringstream ssWhite;
+  stringstream ssBlack;
+  ssWhite << "White: " << numWhite;
+  ssBlack << "Black: " << numBlack;
+  whiteScore->copy_label(ssWhite.str().c_str());
+  blackScore->copy_label(ssBlack.str().c_str());
+  whiteScore->redraw();
+  blackScore->redraw();
 }
 
 ReversiUI::~ReversiUI() {
@@ -806,10 +870,25 @@ ReversiUI::~ReversiUI() {
   delete wImage;
 }
 
-void ReversiUI::startLocalGame() {
+void ReversiUI::startLocalGame(int difficulty) {
   inGame = true;
   serv.connectTo("127.0.0.1", localGamePort);
   serv.readStringFromOtherAi();
+  string diffStr = "EASY";
+  switch(difficulty){
+  	case 0:
+  		diffStr = "EASY";
+  	break;
+  	case 1:
+  		diffStr = "MEDIUM";
+  	break;
+  	case 2:
+  		diffStr = "HARD";
+  	break;
+  }
+  serv.sendStringToOtherAi(diffStr);
+  serv.readStringFromOtherAi();
+  usleep(100000);
   serv.sendStringToOtherAi("HUMAN-AI");
   serv.readStringFromOtherAi();
 }

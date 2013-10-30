@@ -58,6 +58,7 @@ void Game::startRound(){
   turnNum = 0;
   isInSetup = false;
   winner = 0;
+  shouldUpdateUI = true;
 }
 
 void Game::beginTurnLoop(){
@@ -117,6 +118,7 @@ bool Game::getInput(){
       }
       else{
         sendStr("OK\n");
+        shouldUpdateUI = true;
       }
     }
   }while(!hasParsed);
@@ -129,7 +131,7 @@ bool Game::getInput(){
 }
 
 void Game::doTurn(bool shouldGetInput){
-  if(isHumanAiGame && shouldGetInput){
+  if(isHumanAiGame && shouldGetInput && board.hasValidMoves(WHITE)){
     while(!getInput()){}
   }
   if(isHumanAiGame){

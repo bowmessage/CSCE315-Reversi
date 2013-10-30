@@ -13,12 +13,14 @@ AI::AI(State t){
 
 Move AI::getMove(Board b){
   Node* parent = new Node(b);
+  vector<Move> possibleMoves = b.validMoves(team);
+  int randIndex = rand() % possibleMoves.size();
   switch(difficulty){
     case EASY:
-      parent->fillChildrenToDepth(team, 2);
+      return possibleMoves[randIndex];
       break;
     case MEDIUM:
-      parent->fillChildrenToDepth(team, 3);
+      parent->fillChildrenToDepth(team, 2);
       break;
     case HARD:
       parent->fillChildrenToDepth(team, 4);

@@ -15,18 +15,6 @@ void* GameThread(void* in){
 }
 
 int main(int argc, char** argv){
-/*  Game g;
-  //cout << g.board;
-  g.startGame();
-  while(1){
-    g.doTurn();
-  }*/    
-
-  //Fl_Double_Window *window = r.getWindow();
-  //Fl_Box *box = new Box(20, 40, 300, 100, "Hello World!");
-  //box->box(FL_UP_BOX);
-  //window->end();
-  //window->show(argc, argv);
 
   int p = -1;
 
@@ -57,7 +45,10 @@ int main(int argc, char** argv){
   r.show(p);
 
   while(Fl::wait()){
-    r.updateUI();
+    if(g.shouldUpdateUI){
+      g.shouldUpdateUI = false;
+      r.updateUI();
+    }
   }
 
   //pthread_join(gameThread, NULL);

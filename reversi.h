@@ -9,10 +9,10 @@
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Button.H>
-#include <FL/Fl_Return_Button.H>
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Input.H>
+#include <FL/Fl_Return_Button.H>
 #include <FL/Fl_Choice.H>
 
 class ReversiUI {
@@ -155,15 +155,17 @@ private:
   static void cb_3e(Fl_Button*, void*);
   inline void cb_3f_i(Fl_Button*, void*);
   static void cb_3f(Fl_Button*, void*);
-  inline void cb_Exit_i(Fl_Return_Button*, void*);
-  static void cb_Exit(Fl_Return_Button*, void*);
   static Fl_Menu_Item menu_[];
   inline void cb_Human_i(Fl_Menu_*, void*);
   static void cb_Human(Fl_Menu_*, void*);
   inline void cb_AI_i(Fl_Menu_*, void*);
   static void cb_AI(Fl_Menu_*, void*);
+  inline void cb_Quit_i(Fl_Menu_*, void*);
+  static void cb_Quit(Fl_Menu_*, void*);
 public:
   Fl_Box *winnerText;
+  Fl_Box *whiteScore;
+  Fl_Box *blackScore;
   Fl_Double_Window *connectWindow;
   Fl_Input *ipInputBox;
   Fl_Input *portInputBox;
@@ -177,10 +179,19 @@ public:
   static Fl_Menu_Item menu_myDiffChoice[];
   Fl_Choice *theirDiffChoice;
   static Fl_Menu_Item menu_theirDiffChoice[];
+  Fl_Double_Window *humanAiWindow;
+private:
+  inline void cb_Connect1_i(Fl_Button*, void*);
+  static void cb_Connect1(Fl_Button*, void*);
+  inline void cb_Cancel1_i(Fl_Return_Button*, void*);
+  static void cb_Cancel1(Fl_Return_Button*, void*);
+public:
+  Fl_Choice *aiDiffChoice;
+  static Fl_Menu_Item menu_aiDiffChoice[];
   void show(int portNum);
   void updateUI();
   ~ReversiUI();
-  void startLocalGame();
+  void startLocalGame(int difficulty);
   void startRemoteGame(string ipVal, int portVal, int myDiff, int theirDiff);
   void buttonPressed(int buttonNum);
 };

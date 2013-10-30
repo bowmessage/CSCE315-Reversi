@@ -2,6 +2,7 @@
 #define AI_H
 
 #include "Board.h"
+#include <stdlib.h>
 
 enum Difficulty{
   EASY, MEDIUM, HARD
@@ -92,6 +93,8 @@ struct Node{
   int evaluateBoard(State team, Board b){
     int ret = 0;
     State opp = b.opposite(team);
+
+    //More pieces = better
     for(int i = 0; i < 8; i++){
       for(int j = 0; j < 8; j++){
         if(b.getState(i,j) == team){
@@ -102,6 +105,25 @@ struct Node{
         }
       }
     }
+
+    //More available moves = better
+    vector<Move> myPossibleMoves = b.validMoves(team);
+    vector<Move> theirPossibleMoves = b.validMoves(opp);
+    ret += (myPossibleMoves.size() - theirPossibleMoves.size());
+
+    //More corners = way better!
+    for(int i = 0; i < 8; i+=7){
+      for(int j = 0; j < 8; j+=7){
+        if(b.getState(i,j) == team){
+          ret += 5;
+        }
+        else if(b.getState(i,j) == opp){
+          ret -= 5;
+        }
+      }
+    }
+
+
     return ret;
   }
 
